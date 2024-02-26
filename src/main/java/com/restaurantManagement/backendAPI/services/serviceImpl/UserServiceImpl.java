@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /*
-    PageRequest để chỉ định số trang (offset), kích thước trang
+    PageRequest để chỉ định số trang (pageNumber), kích thước trang
      (pageSize) và thứ tự sắp xếp (field).
      */
     @Override

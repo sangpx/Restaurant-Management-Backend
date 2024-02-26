@@ -14,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /*
-UserDetailschứa các thông tin cần thiết (như: tên người dùng, mật khẩu, quyền hạn) để xây dựng đối tượng Xác thực.
+UserDetailschứa các thông tin cần thiết (như: tên người dùng, mật khẩu, quyền hạn)
+để xây dựng đối tượng Xác thực.
  */
 
 public class UserDetailsImpl implements UserDetails {

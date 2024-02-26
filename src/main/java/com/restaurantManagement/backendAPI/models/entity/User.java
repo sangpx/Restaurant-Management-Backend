@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -22,18 +23,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotNull
     @Size(max = 20)
     @Column(name = "user_name")
     private String username;
 
-    @NotBlank
     @Size(max = 50)
     @Email
     @Column(name = "email")
     private String email;
 
-    @NotBlank
+    @NotNull
     @Size(max = 120)
     @Column(name = "password")
     private String password;

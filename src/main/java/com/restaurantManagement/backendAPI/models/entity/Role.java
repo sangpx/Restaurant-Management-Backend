@@ -2,6 +2,7 @@ package com.restaurantManagement.backendAPI.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
@@ -19,6 +20,7 @@ public class Role {
     private Long id;
 
     @Column(name = "name")
+    @NotNull
     private String name;
 
     @JsonIgnore

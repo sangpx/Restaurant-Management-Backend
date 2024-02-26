@@ -33,7 +33,7 @@ import com.restaurantManagement.backendAPI.models.dto.payload.response.MessageRe
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/users")
-@PreAuthorize("hasRole('ADMIN')")
+
 public class UserController {
   @Autowired
   AuthenticationManager authenticationManager;
@@ -71,23 +71,27 @@ public class UserController {
                          roles));
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/signup")
   public ResponseEntity<MessageResponse> signUp(@RequestBody User user){
     User signUpUser = userService.add(user);
     return ResponseEntity.ok(new MessageResponse("SignUp Success!", true));
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/getDetailUser/{id}")
   public UserDTO getDetailUser(@PathVariable("id") Long id){
     return userService.getDetail(id);
   }
 
 
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/deleteUser/{id}")
   public void delete(@PathVariable("id") Long id){
     userService.delete(id);
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/updateUser/{id}")
   public ResponseEntity<MessageResponse> update(
           @RequestBody User user, @PathVariable Long id){
@@ -95,6 +99,7 @@ public class UserController {
     return ResponseEntity.ok(new MessageResponse("Updated Success!", true));
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/getUserPaging")
   public PageResult<Page<UserDTO>> getUserPaging(
           @RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam String filed){
