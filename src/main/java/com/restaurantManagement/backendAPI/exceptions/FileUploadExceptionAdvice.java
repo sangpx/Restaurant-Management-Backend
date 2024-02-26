@@ -1,6 +1,6 @@
 package com.restaurantManagement.backendAPI.exceptions;
 
-import com.restaurantManagement.backendAPI.models.dto.response.MessageResponse;
+import com.restaurantManagement.backendAPI.models.dto.payload.response.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +18,6 @@ public class FileUploadExceptionAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<MessageResponse> handleMaxSizeException(MaxUploadSizeExceededException exc) {
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
-                .body(new MessageResponse("File too large!"));
+                .body(new MessageResponse("File too large!", false));
     }
 }

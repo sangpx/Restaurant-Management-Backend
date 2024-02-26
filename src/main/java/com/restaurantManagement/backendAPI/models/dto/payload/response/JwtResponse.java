@@ -1,4 +1,4 @@
-package com.restaurantManagement.backendAPI.models.dto.response;
+package com.restaurantManagement.backendAPI.models.dto.payload.response;
 
 import java.util.List;
 

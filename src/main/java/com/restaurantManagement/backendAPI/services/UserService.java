@@ -1,6 +1,8 @@
 package com.restaurantManagement.backendAPI.services;
 
+import com.restaurantManagement.backendAPI.models.dto.catalog.user.UserDTO;
 import com.restaurantManagement.backendAPI.models.entity.User;
+import org.springframework.data.domain.Page;
 
 import java.util.Optional;
 
@@ -10,4 +12,10 @@ public interface UserService {
     boolean existsByEmail(String email);
     Optional<User> findByUsername(String userName);
     User saveOrUpdate(User user);
+    User add(User user);
+    User update(User user, Long id);
+    void delete(Long id);
+    UserDTO getDetail(Long id);
+
+    Page<UserDTO> getUsersWithPaginationAndSorting(int pageNumber, int pageSize, String filed);
 }

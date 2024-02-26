@@ -1,8 +1,8 @@
-package com.restaurantManagement.backendAPI.models.dto.request;
+package com.restaurantManagement.backendAPI.models.dto.payload.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class LoginRequest {
+public class SigninRequest {
 	@NotBlank
   private String username;
 	@NotBlank
