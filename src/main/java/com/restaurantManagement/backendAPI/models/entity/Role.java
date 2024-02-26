@@ -1,45 +1,44 @@
 package com.restaurantManagement.backendAPI.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.NaturalId;
+
+import java.util.*;
 
 @Entity
-@Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "roles")
 public class Role {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Enumerated(EnumType.STRING)
-  @Column(length = 20)
-  private ERole name;
+    @Column(name = "name")
+    private String name;
 
-  public Role() {
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
 
+    public void removeAllUsersFromRole() {
+      if(this.getUsers() != null) {
+        List<User> usersInRole = this.getUsers().stream().toList();
+        usersInRole.forEach(this::removeUserFromRole);
+      }
+    }
+
+  public void removeUserFromRole(User user) {
+      user.getRoles().remove(this);
+      this.getUsers().remove(user);
   }
 
-  public Role(ERole name) {
-    this.name = name;
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public ERole getName() {
-    return name;
-  }
-
-  public void setName(ERole name) {
-    this.name = name;
+  public void assignUserToRole(User user) {
+    user.getRoles().add(this);
+    this.getUsers().add(user);
   }
 }

@@ -1,7 +1,7 @@
 package com.restaurantManagement.backendAPI.controllers;
 
+import com.restaurantManagement.backendAPI.models.dto.payload.response.MessageResponse;
 import com.restaurantManagement.backendAPI.models.dto.response.FileUploadResponse;
-import com.restaurantManagement.backendAPI.models.dto.response.MessageResponse;
 import com.restaurantManagement.backendAPI.models.entity.FileDB;
 import com.restaurantManagement.backendAPI.services.serviceImpl.FilesStorageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,10 @@ public class FilesController {
         try {
             storageService.storeFile(file);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message, true));
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message, false));
         }
     }
 
