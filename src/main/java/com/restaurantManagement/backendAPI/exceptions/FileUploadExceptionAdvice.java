@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 //xử lý trường hợp yêu cầu vượt quá Kích thước tải lên tối đa.
 // Hệ thống sẽ đưa ra MaxUploadSizeExceededException và sử dụng
 // chú thích @ControllerAdvice và @ExceptionHandler để xử lý các trường hợp ngoại lệ
-
 @ControllerAdvice
 public class FileUploadExceptionAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
