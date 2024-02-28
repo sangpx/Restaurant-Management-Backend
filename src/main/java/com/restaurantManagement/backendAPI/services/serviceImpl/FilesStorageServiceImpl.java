@@ -29,13 +29,15 @@ public class FilesStorageServiceImpl implements FileStorageService {
 
     //Luu File
     @Override
-    public void save(MultipartFile file) {
+    public String save(MultipartFile file) {
         try {
+            //resolve tuong ung voi path folder
+            Path destinationFile = this.root.resolve(file.getOriginalFilename());
             Files.copy(file.getInputStream(),
-                    //resolve tuong ung voi path folder
-                    this.root.resolve(file.getOriginalFilename()),
+                    destinationFile,
                     StandardCopyOption.REPLACE_EXISTING
             );
+            return destinationFile.toString(); // Trả về đường dẫn tới tệp đã lưu
         } catch (IOException ex) {
             if (ex instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");

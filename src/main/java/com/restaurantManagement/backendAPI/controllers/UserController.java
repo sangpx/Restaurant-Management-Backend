@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.restaurantManagement.backendAPI.models.dto.catalog.user.UserDTO;
 import com.restaurantManagement.backendAPI.models.dto.payload.request.SigninRequest;
 import com.restaurantManagement.backendAPI.models.dto.payload.response.PageResult;
+import com.restaurantManagement.backendAPI.models.entity.Category;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import com.restaurantManagement.backendAPI.services.RoleService;
 import com.restaurantManagement.backendAPI.services.UserService;
@@ -105,5 +106,12 @@ public class UserController {
           @RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam String filed){
     Page<UserDTO> userDTOPages = userService.getUsersWithPaginationAndSorting(pageNumber, pageSize, filed);
     return new PageResult<>(userDTOPages.getSize(), userDTOPages);
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @GetMapping("/searchUsers")
+  public ResponseEntity<List<UserDTO>> searchUsers(
+          @RequestParam("query") String query){
+    return ResponseEntity.ok(userService.searchUsers(query));
   }
 }
