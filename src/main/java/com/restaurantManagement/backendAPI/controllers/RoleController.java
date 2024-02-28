@@ -19,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
 @PreAuthorize("hasRole('ADMIN')")
-
 public class RoleController {
     @Autowired
     private RoleService roleService;

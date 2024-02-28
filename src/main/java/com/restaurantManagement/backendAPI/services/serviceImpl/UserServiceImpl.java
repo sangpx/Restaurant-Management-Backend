@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -104,5 +106,14 @@ public class UserServiceImpl implements UserService {
         //Entity -> DTO
         Page<UserDTO> userDTOPage = userPage.map(user -> modelMapper.map(user, UserDTO.class));
         return userDTOPage;
+    }
+
+    @Override
+    public List<UserDTO> searchUsers(String query) {
+        List<User> users = userRepository.searchUsers(query);
+        List<UserDTO> userDTOS = users.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
+        return userDTOS;
     }
 }

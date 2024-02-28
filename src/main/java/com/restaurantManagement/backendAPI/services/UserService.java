@@ -4,6 +4,7 @@ import com.restaurantManagement.backendAPI.models.dto.catalog.user.UserDTO;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -16,6 +17,6 @@ public interface UserService {
     User update(User user, Long id);
     void delete(Long id);
     UserDTO getDetail(Long id);
-
     Page<UserDTO> getUsersWithPaginationAndSorting(int pageNumber, int pageSize, String filed);
+    List<UserDTO> searchUsers(String query);
 }
