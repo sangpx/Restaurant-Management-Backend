@@ -20,9 +20,22 @@ public class TestController {
   public String userAccess() {
     return "User Content.";
   }
+
+  @GetMapping("/receptionist")
+  @PreAuthorize("hasRole('ROLE_RECEPTIONIST') or hasRole('ROLE_ADMIN')")
+  public String receptionistAccess() {
+    return "Receptionist Content.";
+  }
+
+  @GetMapping("/cashier")
+  @PreAuthorize("hasRole('ROLE_CASHIER') or hasRole('ROLE_ADMIN')")
+  public String cashierAccess() {
+    return "Cashier Content.";
+  }
+
   @GetMapping("/admin")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public String adminAccess() {
-    return "Admin Board.";
+    return "Admin Content.";
   }
 }
