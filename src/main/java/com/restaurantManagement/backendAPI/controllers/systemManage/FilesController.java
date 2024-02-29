@@ -1,4 +1,4 @@
-package com.restaurantManagement.backendAPI.controllers;
+package com.restaurantManagement.backendAPI.controllers.systemManage;
 
 import com.restaurantManagement.backendAPI.models.dto.payload.response.MessageResponse;
 import com.restaurantManagement.backendAPI.models.entity.FileDB;
@@ -19,11 +19,12 @@ import java.util.stream.Collectors;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api/files")
-@PreAuthorize("hasRole('ADMIN')")
 public class FilesController {
 
     @Autowired
     private FilesStorageServiceImpl storageService;
+
+    @PreAuthorize("hasRole('ADMIN')")
 
     @PostMapping("/upload")
     public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file) {

@@ -1,4 +1,4 @@
-package com.restaurantManagement.backendAPI.controllers;
+package com.restaurantManagement.backendAPI.controllers.systemManage;
 
 import com.restaurantManagement.backendAPI.models.dto.payload.response.PageResult;
 import com.restaurantManagement.backendAPI.models.entity.Category;
@@ -52,7 +52,7 @@ public class CategoryController {
         return new ResponseEntity<>(savedCategory, HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("deleteCategory/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){
         categoryService.delete(id);
         return ResponseEntity.ok("Category deleted successfully!.");

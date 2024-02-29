@@ -75,7 +75,10 @@ public class UserServiceImpl implements UserService {
         userFind.setPhone(user.getPhone());
         userFind.setEmail(user.getEmail());
         userFind.setGender(user.getGender());
-        userFind.setStatus(true);
+        // Lấy giá trị hiện tại của trường status
+        boolean currentStatus = userFind.isStatus();
+        // Đảo ngược giá trị của status
+        userFind.setStatus(!currentStatus);
 //        userFind.setRoles(user.getRoles());
         userFind.setUpdatedAt(new Date());
         return userRepository.save(userFind);

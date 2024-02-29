@@ -1,4 +1,4 @@
-package com.restaurantManagement.backendAPI.controllers;
+package com.restaurantManagement.backendAPI.controllers.systemManage;
 
 
 import com.restaurantManagement.backendAPI.models.dto.payload.response.MessageResponse;
