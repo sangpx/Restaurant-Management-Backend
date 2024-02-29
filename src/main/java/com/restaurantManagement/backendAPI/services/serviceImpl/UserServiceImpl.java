@@ -2,7 +2,7 @@ package com.restaurantManagement.backendAPI.services.serviceImpl;
 
 import com.restaurantManagement.backendAPI.exceptions.UserAlreadyExistException;
 import com.restaurantManagement.backendAPI.exceptions.UserNotFoundException;
-import com.restaurantManagement.backendAPI.models.dto.catalog.user.UserDTO;
+import com.restaurantManagement.backendAPI.models.dto.catalog.UserDTO;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import com.restaurantManagement.backendAPI.repository.UserRepository;
 import com.restaurantManagement.backendAPI.services.UserService;

@@ -1,10 +1,8 @@
 package com.restaurantManagement.backendAPI.services.serviceImpl;
 
 import com.restaurantManagement.backendAPI.models.dto.catalog.DeskDTO;
-import com.restaurantManagement.backendAPI.models.dto.catalog.user.UserDTO;
 import com.restaurantManagement.backendAPI.models.entity.Desk;
 import com.restaurantManagement.backendAPI.models.entity.Floor;
-import com.restaurantManagement.backendAPI.models.entity.User;
 import com.restaurantManagement.backendAPI.repository.DeskRepository;
 import com.restaurantManagement.backendAPI.services.DeskService;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,8 +17,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service

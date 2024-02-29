@@ -1,4 +1,4 @@
-package com.restaurantManagement.backendAPI.models.dto.catalog.user;
+package com.restaurantManagement.backendAPI.models.dto.catalog;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
