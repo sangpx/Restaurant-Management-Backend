@@ -37,7 +37,7 @@ public class FilesStorageServiceImpl implements FileStorageService {
                     destinationFile,
                     StandardCopyOption.REPLACE_EXISTING
             );
-            return destinationFile.toString(); // Trả về đường dẫn tới tệp đã lưu
+            return destinationFile.getFileName().toString(); // Trả về đường dẫn tới tệp đã lưu
         } catch (IOException ex) {
             if (ex instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");

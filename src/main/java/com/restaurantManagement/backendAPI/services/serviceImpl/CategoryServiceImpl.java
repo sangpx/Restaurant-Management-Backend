@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
             String imageUrl = fileStorageService.save(file);
             // Thiết lập đường dẫn ảnh cho category
             category.setImage(imageUrl);
-            category.setCreatedAt(new Date());
-            category.setUpdatedAt(new Date());
+            category.setCreatedAt(Date.from(Instant.now()));
+            category.setUpdatedAt(Date.from(Instant.now()));
         }
         Category createCategory = categoryRepository.save(category);
         return createCategory;
@@ -45,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
             categoryFind.setImage(imageUrl);
         }
         categoryFind.setName(category.getName());
-        categoryFind.setUpdatedAt(new Date());
+        categoryFind.setUpdatedAt(Date.from(Instant.now()));
         Category updateCategory = categoryRepository.save(categoryFind);
         return updateCategory;
     }
@@ -72,10 +73,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Page<Category> getCategorysWithPaginationAndSorting(int pageNumber, int pageSize, String filed) {
-        //DTO -> Entity
-        Page<Category> userPage = categoryRepository.findAll(
+        Page<Category> categoryPage = categoryRepository.findAll(
                 PageRequest.of(pageNumber, pageSize)
                         .withSort(Sort.by(filed)));
-        return userPage;
+        return categoryPage;
     }
 }
