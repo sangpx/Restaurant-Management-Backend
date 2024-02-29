@@ -4,10 +4,9 @@ package com.restaurantManagement.backendAPI.controllers.systemManage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.restaurantManagement.backendAPI.models.dto.catalog.user.UserDTO;
+import com.restaurantManagement.backendAPI.models.dto.catalog.UserDTO;
 import com.restaurantManagement.backendAPI.models.dto.payload.request.SigninRequest;
 import com.restaurantManagement.backendAPI.models.dto.payload.response.PageResult;
-import com.restaurantManagement.backendAPI.models.entity.Category;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import com.restaurantManagement.backendAPI.services.RoleService;
 import com.restaurantManagement.backendAPI.services.UserService;

@@ -1,6 +1,6 @@
 package com.restaurantManagement.backendAPI.services;
 
-import com.restaurantManagement.backendAPI.models.dto.catalog.user.UserDTO;
+import com.restaurantManagement.backendAPI.models.dto.catalog.UserDTO;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import org.springframework.data.domain.Page;
 
