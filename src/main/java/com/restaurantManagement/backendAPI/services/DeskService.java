@@ -11,7 +11,7 @@ public interface DeskService {
     Desk add(Desk desk, Long floorId);
     Desk update(Desk desk, Long floorId, Long deskId);
     void delete(Long id);
-    Desk getDetail(Long id);
+    DeskDTO getDetail(Long id);
     List<Desk> searchDesk(String query);
     Page<DeskDTO> getDesksWithPaginationAndSorting(int pageNumber, int pageSize, String filed);
     List<DeskDTO> getAlls();
