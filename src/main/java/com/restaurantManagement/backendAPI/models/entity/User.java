@@ -64,8 +64,17 @@ public class User {
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @JsonManagedReference
+    @JsonIgnore
     private List<RestaurantInfo> restaurantInfos;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @JsonManagedReference
+    @JsonIgnore
+    private List<Bill> bills;
+
+    @OneToMany(mappedBy = "user")
+//    @JsonManagedReference
+    @JsonIgnore
+    private List<Booking> bookings;
 }

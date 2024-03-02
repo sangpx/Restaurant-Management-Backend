@@ -39,9 +39,9 @@ public class DeskController {
     }
 
     @GetMapping("/getDetailDesk/{id}")
-    public ResponseEntity<Desk> getDetailDesk(@PathVariable("id") Long id){
-        Desk desk = deskService.getDetail(id);
-        return ResponseEntity.ok(desk);
+    public ResponseEntity<DeskDTO> getDetailDesk(@PathVariable("id") Long id){
+        DeskDTO deskDTO = deskService.getDetail(id);
+        return ResponseEntity.ok(deskDTO);
     }
 
     @PostMapping("/createDesk")

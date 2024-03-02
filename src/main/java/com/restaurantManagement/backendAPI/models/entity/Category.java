@@ -27,8 +27,6 @@ public class Category {
     private Date updatedAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @JsonIgnore
     private List<Food> foods;
 }

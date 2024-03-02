@@ -1,43 +1,40 @@
 package com.restaurantManagement.backendAPI.models.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "restaurant_infoes")
-public class RestaurantInfo {
+@Table(name = "bookings")
+public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String phone;
-    private String email;
-    private String address;
-    @Column(name = "time_open")
-    private String timeOpen;
-    @Column(name = "time_close")
-    private String timeClose;
-    private String about;
+    private boolean status;
+    private int quantity_table;
+    private String note;
     @Column(name = "created_at")
     private Date createdAt;
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable=false, updatable=false)
-//    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "booking", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<BookingDesk> bookingDesks;
 }

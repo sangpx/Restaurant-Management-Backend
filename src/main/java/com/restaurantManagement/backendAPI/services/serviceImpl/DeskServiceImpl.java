@@ -65,9 +65,11 @@ public class DeskServiceImpl implements DeskService {
     }
 
     @Override
-    public Desk getDetail(Long id) {
-        return deskRepository.findById(id)
+    public DeskDTO getDetail(Long id) {
+        Desk deskEntity = deskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found Desk with: " + id));
+        DeskDTO deskDTO = modelMapper.map(deskEntity, DeskDTO.class);
+        return deskDTO;
     }
 
     @Override

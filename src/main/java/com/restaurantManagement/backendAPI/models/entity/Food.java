@@ -3,8 +3,8 @@ package com.restaurantManagement.backendAPI.models.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,7 +28,11 @@ public class Food {
     private Date updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private Category category;
+
+    @OneToMany(mappedBy = "food")
+    @JsonIgnore
+    private List<BillDetail> billDetails;
 }
