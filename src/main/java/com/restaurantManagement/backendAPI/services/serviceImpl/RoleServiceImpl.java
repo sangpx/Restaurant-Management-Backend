@@ -3,6 +3,7 @@ package com.restaurantManagement.backendAPI.services.serviceImpl;
 import com.restaurantManagement.backendAPI.exceptions.RoleAlreadyExistException;
 import com.restaurantManagement.backendAPI.exceptions.UserAlreadyExistException;
 import com.restaurantManagement.backendAPI.exceptions.UserNotFoundException;
+import com.restaurantManagement.backendAPI.models.entity.ERole;
 import com.restaurantManagement.backendAPI.models.entity.Role;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import com.restaurantManagement.backendAPI.repository.RoleRepository;
@@ -29,8 +30,12 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findAll();
     }
 
+//    @Override
+//    public Optional<Role> findByRoleName(String roleName) {
+//        return roleRepository.findByName(roleName);
+//    }
     @Override
-    public Optional<Role> findByRoleName(String roleName) {
+    public Optional<Role> findByRoleName(ERole roleName) {
         return roleRepository.findByName(roleName);
     }
 

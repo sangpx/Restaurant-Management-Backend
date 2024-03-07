@@ -20,7 +20,9 @@ public class Role {
 
     @Column(name = "name")
     @NotNull
-    private String name;
+//    private String name;
+    @Enumerated(EnumType.STRING)
+    private ERole name;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")

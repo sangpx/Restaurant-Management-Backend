@@ -1,5 +1,6 @@
 package com.restaurantManagement.backendAPI.services;
 
+import com.restaurantManagement.backendAPI.models.entity.ERole;
 import com.restaurantManagement.backendAPI.models.entity.Role;
 import com.restaurantManagement.backendAPI.models.entity.User;
 
@@ -8,7 +9,8 @@ import java.util.Optional;
 
 public interface RoleService {
     List<Role> getAllRoles();
-    Optional<Role> findByRoleName(String roleName);
+//    Optional<Role> findByRoleName(String roleName);
+    Optional<Role> findByRoleName(ERole roleName);
 
     Role findById(Long roleId);
 

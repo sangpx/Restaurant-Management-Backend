@@ -44,7 +44,7 @@ public class UserDetailsImpl implements UserDetails {
     //user.getRoles()trả về 1 Set<Role>
     List<GrantedAuthority> authorities = user.getRoles().stream()
             //map() thay đổi mọi Role mục ở trên thành một đối tượng SimpleGrantedAuthority
-        .map(role -> new SimpleGrantedAuthority(role.getName()))
+        .map(role -> new SimpleGrantedAuthority(role.getName().name()))
         .collect(Collectors.toList());
     // tra ra doi tuong UserDetailsImpl
     return new UserDetailsImpl(
