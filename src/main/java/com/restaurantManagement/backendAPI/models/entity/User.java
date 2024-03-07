@@ -66,11 +66,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    @JsonManagedReference
     @JsonIgnore
-    private List<RestaurantInfo> restaurantInfos;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-    @JsonIgnore
     private List<Bill> bills;
 
     @OneToMany(mappedBy = "user")

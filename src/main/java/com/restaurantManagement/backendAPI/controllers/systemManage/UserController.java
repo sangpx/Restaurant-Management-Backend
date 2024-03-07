@@ -50,7 +50,7 @@ public class UserController {
   @Autowired
   JwtUtils jwtUtils;
 
-  @PostMapping("/signin")
+    @PostMapping("/signin")
   public ResponseEntity<?> signIn(@Valid @RequestBody SigninRequest siginRequest) {
 
     Authentication authentication = authenticationManager.authenticate(
@@ -112,5 +112,11 @@ public class UserController {
   public ResponseEntity<List<UserDTO>> searchUsers(
           @RequestParam("query") String query){
     return ResponseEntity.ok(userService.searchUsers(query));
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @GetMapping("/getAlls")
+  public ResponseEntity<List<UserDTO>> getAlls(){
+    return ResponseEntity.ok(userService.getAlls());
   }
 }

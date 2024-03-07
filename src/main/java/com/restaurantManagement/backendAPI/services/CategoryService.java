@@ -13,4 +13,6 @@ public interface CategoryService {
     Category getDetail(Long id);
     List<Category> searchCategory(String query);
     Page<Category> getCategorysWithPaginationAndSorting(int pageNumber, int pageSize, String filed);
+
+    List<Category> getAlls();
 }

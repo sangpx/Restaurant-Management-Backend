@@ -119,4 +119,12 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
         return userDTOS;
     }
+
+    @Override
+    public List<UserDTO> getAlls() {
+        List<User> listUser = userRepository.findAll();
+        List<UserDTO> userDTOList = listUser.stream().map(user -> modelMapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
+        return userDTOList;
+    }
 }

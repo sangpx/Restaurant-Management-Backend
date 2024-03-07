@@ -13,4 +13,6 @@ public interface FoodService {
     Food getDetail(Long id);
     List<Food> searchFood(String query);
     Page<FoodDTO> getFoodsWithPaginationAndSorting(int pageNumber, int pageSize, String filed);
+
+    List<FoodDTO> getAlls();
 }

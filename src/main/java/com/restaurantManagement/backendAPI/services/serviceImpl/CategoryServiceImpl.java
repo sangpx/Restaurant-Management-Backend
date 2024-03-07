@@ -79,4 +79,10 @@ public class CategoryServiceImpl implements CategoryService {
                         .withSort(Sort.by(filed)));
         return categoryPage;
     }
+
+    @Override
+    public List<Category> getAlls() {
+        List<Category> categoryList = categoryRepository.findAll();
+        return categoryList;
+    }
 }

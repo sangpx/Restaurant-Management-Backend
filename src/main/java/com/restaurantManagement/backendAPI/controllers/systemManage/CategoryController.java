@@ -30,6 +30,12 @@ public class CategoryController {
         return new PageResult<>(categoryPages.getSize(), categoryPages);
     }
 
+    @GetMapping("/getAlls")
+    public ResponseEntity<List<Category>> getAlls(){
+        List<Category> categorys = categoryService.getAlls();
+        return ResponseEntity.ok(categorys);
+    }
+
     @GetMapping("/getDetailCategory/{id}")
     public ResponseEntity<Category> getDetailCategory(@PathVariable("id") Long id){
         Category category = categoryService.getDetail(id);

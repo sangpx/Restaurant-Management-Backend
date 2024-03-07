@@ -26,6 +26,13 @@ public class FoodController {
     @Autowired
     private FoodService foodService;
 
+
+    @GetMapping("/getAlls")
+    public ResponseEntity<List<FoodDTO>> getAlls(){
+        List<FoodDTO> foodDTOList = foodService.getAlls();
+        return ResponseEntity.ok(foodDTOList);
+    }
+
     @GetMapping("/getFoodsPaging")
     public PageResult<Page<FoodDTO>> getFoodsPaging(
             @RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam String filed){

@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FoodServiceImpl implements FoodService {
@@ -98,5 +99,13 @@ public class FoodServiceImpl implements FoodService {
         Page<FoodDTO> foodDTOPage = foodPage.map(food ->
                 modelMapper.map(food, FoodDTO.class));
         return foodDTOPage;
+    }
+
+    @Override
+    public List<FoodDTO> getAlls() {
+        List<Food> listFood = foodRepository.findAll();
+        List<FoodDTO> foodDTOList = listFood.stream().map(food -> modelMapper.map(food, FoodDTO.class))
+                .collect(Collectors.toList());
+        return foodDTOList;
     }
 }

@@ -19,4 +19,5 @@ public interface UserService {
     UserDTO getDetail(Long id);
     Page<UserDTO> getUsersWithPaginationAndSorting(int pageNumber, int pageSize, String filed);
     List<UserDTO> searchUsers(String query);
+    List<UserDTO> getAlls();
 }
