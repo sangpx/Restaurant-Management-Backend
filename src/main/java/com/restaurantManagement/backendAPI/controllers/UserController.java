@@ -1,4 +1,4 @@
-package com.restaurantManagement.backendAPI.controllers.systemManage;
+package com.restaurantManagement.backendAPI.controllers;
 
 
 import java.time.Instant;

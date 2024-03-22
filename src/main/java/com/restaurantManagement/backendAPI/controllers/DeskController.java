@@ -1,7 +1,6 @@
-package com.restaurantManagement.backendAPI.controllers.systemManage;
+package com.restaurantManagement.backendAPI.controllers;
 
 
-import com.restaurantManagement.backendAPI.models.dto.catalog.DeskDTO;
 import com.restaurantManagement.backendAPI.models.dto.payload.response.PageResult;
 import com.restaurantManagement.backendAPI.models.entity.Desk;
 import com.restaurantManagement.backendAPI.services.DeskService;
@@ -14,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/desks")
@@ -26,22 +24,22 @@ public class DeskController {
     private DeskService deskService;
 
     @GetMapping("/getDesksPaging")
-    public PageResult<Page<DeskDTO>> getDesksPaging(
+    public PageResult<Page<Desk>> getDesksPaging(
             @RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam String filed){
-        Page<DeskDTO> deskDTOPages = deskService.getDesksWithPaginationAndSorting(pageNumber, pageSize, filed);
-        return new PageResult<>(deskDTOPages.getSize(), deskDTOPages);
+        Page<Desk> deskPages = deskService.getDesksWithPaginationAndSorting(pageNumber, pageSize, filed);
+        return new PageResult<>(deskPages.getSize(), deskPages);
     }
 
     @GetMapping("/getAlls")
-    public ResponseEntity<List<DeskDTO>> getAlls(){
-        List<DeskDTO> deskDTOList = deskService.getAlls();
+    public ResponseEntity<List<Desk>> getAlls(){
+        List<Desk> deskDTOList = deskService.getAlls();
         return ResponseEntity.ok(deskDTOList);
     }
 
     @GetMapping("/getDetailDesk/{id}")
-    public ResponseEntity<DeskDTO> getDetailDesk(@PathVariable("id") Long id){
-        DeskDTO deskDTO = deskService.getDetail(id);
-        return ResponseEntity.ok(deskDTO);
+    public ResponseEntity<Desk> getDetailDesk(@PathVariable("id") Long id){
+        Desk desk = deskService.getDetail(id);
+        return ResponseEntity.ok(desk);
     }
 
     @PostMapping("/createDesk")

@@ -19,13 +19,8 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer add(Customer customer) {
         Customer createCustomer = new Customer();
         createCustomer.setName(customer.getName());
-        createCustomer.setEmail(customer.getEmail());
         createCustomer.setPhone(customer.getPhone());
-        createCustomer.setQuantityPerson(customer.getQuantityPerson());
-        createCustomer.setNote(customer.getNote());
-        createCustomer.setStatus(true);
         createCustomer.setAccumulatedPoints(10);
-        createCustomer.setTimeArrived(customer.getTimeArrived());
         createCustomer.setCreatedAt(Date.from(Instant.now()));
         createCustomer.setUpdatedAt(Date.from(Instant.now()));
         return customerRepository.save(createCustomer);
@@ -36,13 +31,8 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customerExist = customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found Customer with: " + id));
         customerExist.setName(customer.getName());
-        customerExist.setEmail(customer.getEmail());
         customerExist.setPhone(customer.getPhone());
-        customerExist.setQuantityPerson(customer.getQuantityPerson());
-        customerExist.setNote(customer.getNote());
-        customerExist.setStatus(!customerExist.isStatus());
         customerExist.setAccumulatedPoints(customer.getAccumulatedPoints());
-        customerExist.setTimeArrived(customer.getTimeArrived());
         customerExist.setUpdatedAt(Date.from(Instant.now()));
         return customerRepository.save(customerExist);
     }

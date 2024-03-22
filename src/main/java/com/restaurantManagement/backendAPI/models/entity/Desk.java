@@ -1,14 +1,10 @@
 package com.restaurantManagement.backendAPI.models.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.restaurantManagement.backendAPI.models.dto.catalog.DeskDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -29,30 +25,4 @@ public class Desk {
     private Date createdAt;
     @Column(name = "updated_at")
     private Date updatedAt;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "floor_id")
-//    @JsonBackReference
-    private Floor floor;
-
-    @OneToMany(mappedBy = "desk")
-    @JsonIgnore
-    private List<BillDesk> billDesks;
-
-    @OneToMany(mappedBy = "desk")
-    @JsonIgnore
-    private List<BookingDesk> bookingDesks;
-
-    public DeskDTO entityToDTO() {
-        DeskDTO deskDto = new DeskDTO();
-        deskDto.setId(this.id);
-        deskDto.setName(this.name);
-        deskDto.setStatus(this.status);
-        deskDto.setQuantitySeat(this.quantitySeat);
-        if (this.floor != null) {
-            deskDto.setFloorId(this.floor.getId());
-            deskDto.setFloorName(this.floor.getName());
-        }
-        return deskDto;
-    }
 }

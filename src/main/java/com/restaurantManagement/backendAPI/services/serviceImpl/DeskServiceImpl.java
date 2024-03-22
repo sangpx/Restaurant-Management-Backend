@@ -1,8 +1,6 @@
 package com.restaurantManagement.backendAPI.services.serviceImpl;
 
-import com.restaurantManagement.backendAPI.models.dto.catalog.DeskDTO;
 import com.restaurantManagement.backendAPI.models.entity.Desk;
-import com.restaurantManagement.backendAPI.models.entity.Floor;
 import com.restaurantManagement.backendAPI.repository.DeskRepository;
 import com.restaurantManagement.backendAPI.services.DeskService;
 import jakarta.persistence.EntityNotFoundException;
@@ -36,9 +34,6 @@ public class DeskServiceImpl implements DeskService {
         createdDesk.setStatus(false);
         createdDesk.setCreatedAt(Date.from(Instant.now()));
         createdDesk.setUpdatedAt(Date.from(Instant.now()));
-        Floor floor = new Floor();
-        floor.setId(floorId);
-        createdDesk.setFloor(floor);
         return deskRepository.save(createdDesk);
     }
 
@@ -51,9 +46,6 @@ public class DeskServiceImpl implements DeskService {
         deskExist.setStatus(!deskExist.isStatus());
         deskExist.setQuantitySeat(desk.getQuantitySeat());
         deskExist.setUpdatedAt(Date.from(Instant.now()));
-        Floor floor = new Floor();
-        floor.setId(floorId);
-        deskExist.setFloor(floor);
         return deskRepository.save(deskExist);
     }
 
@@ -65,11 +57,10 @@ public class DeskServiceImpl implements DeskService {
     }
 
     @Override
-    public DeskDTO getDetail(Long id) {
+    public Desk getDetail(Long id) {
         Desk deskEntity = deskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found Desk with: " + id));
-        DeskDTO deskDTO = modelMapper.map(deskEntity, DeskDTO.class);
-        return deskDTO;
+        return deskEntity;
     }
 
     @Override
@@ -79,21 +70,16 @@ public class DeskServiceImpl implements DeskService {
     }
 
     @Override
-    public List<DeskDTO> getAlls() {
+    public List<Desk> getAlls() {
         List<Desk> deskList = deskRepository.findAll();
-        List<DeskDTO> deskDTOList = new ArrayList<>();
-        deskList.forEach(desk -> deskDTOList.add(desk.entityToDTO()));
-        return deskDTOList;
+        return deskList;
     }
 
     @Override
-    public Page<DeskDTO> getDesksWithPaginationAndSorting(int pageNumber, int pageSize, String filed) {
+    public Page<Desk> getDesksWithPaginationAndSorting(int pageNumber, int pageSize, String filed) {
         //DTO -> Entity
         Page<Desk> deskPage = deskRepository.findAll(PageRequest.of(pageNumber, pageSize)
                 .withSort(Sort.by(filed)));
-        //Entity -> DTO
-        Page<DeskDTO> deskDTOPage = deskPage.map(desk ->
-                modelMapper.map(desk, DeskDTO.class));
-        return deskDTOPage;
+        return deskPage;
     }
 }

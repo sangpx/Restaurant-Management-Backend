@@ -1,9 +1,7 @@
 package com.restaurantManagement.backendAPI.services.serviceImpl;
 
-import com.restaurantManagement.backendAPI.models.dto.catalog.DeskDTO;
 import com.restaurantManagement.backendAPI.models.dto.catalog.FoodDTO;
 import com.restaurantManagement.backendAPI.models.entity.Category;
-import com.restaurantManagement.backendAPI.models.entity.Desk;
 import com.restaurantManagement.backendAPI.models.entity.Food;
 import com.restaurantManagement.backendAPI.repository.FoodRepository;
 import com.restaurantManagement.backendAPI.services.FileStorageService;

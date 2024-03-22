@@ -1,4 +1,4 @@
-package com.restaurantManagement.backendAPI.controllers.systemManage;
+package com.restaurantManagement.backendAPI.controllers;
 
 import com.restaurantManagement.backendAPI.models.dto.payload.response.MessageResponse;
 import com.restaurantManagement.backendAPI.models.entity.FileDB;

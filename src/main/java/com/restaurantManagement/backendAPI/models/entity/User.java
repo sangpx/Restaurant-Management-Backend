@@ -63,13 +63,5 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-    @JsonIgnore
-    private List<Bill> bills;
 
-    @OneToMany(mappedBy = "user")
-//    @JsonManagedReference
-    @JsonIgnore
-    private List<Booking> bookings;
 }

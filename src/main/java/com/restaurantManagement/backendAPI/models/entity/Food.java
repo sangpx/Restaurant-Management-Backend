@@ -1,12 +1,10 @@
 package com.restaurantManagement.backendAPI.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.restaurantManagement.backendAPI.models.dto.catalog.DeskDTO;
 import com.restaurantManagement.backendAPI.models.dto.catalog.FoodDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -33,10 +31,6 @@ public class Food {
     @JoinColumn(name = "category_id")
     @JsonIgnore
     private Category category;
-
-    @OneToMany(mappedBy = "food")
-    @JsonIgnore
-    private List<BillDetail> billDetails;
 
     public FoodDTO entityToDTO() {
         FoodDTO foodDTO = new FoodDTO();
