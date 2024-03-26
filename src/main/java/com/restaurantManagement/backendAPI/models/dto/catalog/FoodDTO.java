@@ -12,9 +12,7 @@ public class FoodDTO {
     private Long id;
     private String name;
     private String description;
-    private String image;
     private Double price;
-    private boolean status;
     private Long categoryId;
     private String categoryName;
 }

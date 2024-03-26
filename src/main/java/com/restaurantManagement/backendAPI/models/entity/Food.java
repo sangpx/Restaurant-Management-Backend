@@ -5,6 +5,7 @@ import com.restaurantManagement.backendAPI.models.dto.catalog.FoodDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,13 +20,18 @@ public class Food {
     @NonNull
     private String name;
     private String description;
-    private String image;
     private Double price;
-    private boolean status;
-    @Column(name = "created_at")
     private Date createdAt;
-    @Column(name = "updated_at")
     private Date updatedAt;
+
+    @OneToMany(mappedBy = "food")
+    @JsonIgnore
+    private List<IngredientFood> ingredientFoodList;
+
+    @OneToMany(mappedBy = "food")
+    @JsonIgnore
+    private List<InvoiceDetail> invoiceDetailList;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -37,8 +43,6 @@ public class Food {
         foodDTO.setId(this.id);
         foodDTO.setName(this.name);
         foodDTO.setDescription(this.description);
-        foodDTO.setImage(this.image);
-        foodDTO.setStatus(this.status);
         foodDTO.setPrice(this.price);
         if (this.category != null) {
             foodDTO.setCategoryId(this.category.getId());

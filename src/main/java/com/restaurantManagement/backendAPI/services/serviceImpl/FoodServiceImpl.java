@@ -27,59 +27,48 @@ public class FoodServiceImpl implements FoodService {
     private FoodRepository foodRepository;
 
     @Autowired
-    private FileStorageService fileStorageService;
-
-    @Autowired
     private ModelMapper modelMapper;
 
     @Override
-    public Food add(Food food, Long categoryId, MultipartFile file) {
-        if (file != null && !file.isEmpty()) {
-            String imageUrl = fileStorageService.save(file);
-            // Thiết lập đường dẫn ảnh cho category
-            food.setImage(imageUrl);
-            food.setStatus(true);
-            Category category = new Category();
-            category.setId(categoryId);
-            food.setCategory(category);
-            food.setCreatedAt(Date.from(Instant.now()));
-            food.setUpdatedAt(Date.from(Instant.now()));
-        }
-        Food createdFood = foodRepository.save(food);
-        return createdFood;
+    public Food add(Food food, Long categoryId) {
+        Food foodCreate = new Food();
+        Category category = new Category();
+        category.setId(categoryId);
+        foodCreate.setCategory(category);
+        foodCreate.setName(food.getName());
+        foodCreate.setDescription(food.getDescription());
+        foodCreate.setPrice(food.getPrice());
+        foodCreate.setCreatedAt(Date.from(Instant.now()));
+        foodCreate.setUpdatedAt(Date.from(Instant.now()));
+        return foodRepository.save(foodCreate);
     }
 
     @Override
-    public Food update(Food food, Long id, MultipartFile file, Long categoryId) {
+    public Food update(Food food, Long id, Long categoryId) {
         Food foodExist = foodRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Food with: " + id));
-        if (file != null && !file.isEmpty()) {
-            String imageUrl = fileStorageService.save(file);
-            // Thiết lập đường dẫn ảnh cho category
-            foodExist.setImage(imageUrl);
-        }
-        foodExist.setStatus(!food.isStatus());
-        foodExist.setName(food.getName());
-        foodExist.setPrice(food.getPrice());
-        foodExist.setDescription(food.getDescription());
+                .orElseThrow(() -> new EntityNotFoundException("Not found Food with id: " + id));
         Category category = new Category();
         category.setId(categoryId);
         foodExist.setCategory(category);
+        foodExist.setName(food.getName());
+        foodExist.setDescription(food.getDescription());
+        foodExist.setPrice(food.getPrice());
         foodExist.setUpdatedAt(Date.from(Instant.now()));
         return foodRepository.save(foodExist);
     }
 
+
     @Override
     public void delete(Long id) {
         Food foodExist = foodRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Food with: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Not found Food with id: " + id));
         foodRepository.delete(foodExist);
     }
 
     @Override
     public Food getDetail(Long id) {
         return foodRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Food with: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Not found Food with id: " + id));
     }
 
     @Override

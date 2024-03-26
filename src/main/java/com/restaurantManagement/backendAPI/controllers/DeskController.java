@@ -43,14 +43,14 @@ public class DeskController {
     }
 
     @PostMapping("/createDesk")
-    public ResponseEntity<Desk> createDesk(@RequestBody Desk desk, @RequestParam Long floorId){
-        Desk savedDesk = deskService.add(desk, floorId);
+    public ResponseEntity<Desk> createDesk(@RequestBody Desk desk){
+        Desk savedDesk = deskService.add(desk);
         return new ResponseEntity<>(savedDesk, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateDesk")
     public ResponseEntity<Desk> updateDesk(@RequestBody Desk desk, @RequestParam Long floorId, @RequestParam Long deskId){
-        Desk savedDesk = deskService.update(desk, floorId, deskId);
+        Desk savedDesk = deskService.update(desk, deskId);
         return new ResponseEntity<>(savedDesk, HttpStatus.OK);
     }
 

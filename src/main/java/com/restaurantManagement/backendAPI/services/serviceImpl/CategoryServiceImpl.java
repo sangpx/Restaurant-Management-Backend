@@ -20,36 +20,22 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
-
-    @Autowired
-    private FileStorageService fileStorageService;
-
     @Override
-    public Category add(Category category, MultipartFile file) {
-        if (file != null && !file.isEmpty()) {
-            String imageUrl = fileStorageService.save(file);
-            // Thiết lập đường dẫn ảnh cho category
-            category.setImage(imageUrl);
-            category.setCreatedAt(Date.from(Instant.now()));
-            category.setUpdatedAt(Date.from(Instant.now()));
-        }
-        Category createCategory = categoryRepository.save(category);
-        return createCategory;
+    public Category add(Category category) {
+        Category categoryCreate = new Category();
+        categoryCreate.setName(category.getName());
+        categoryCreate.setCreatedAt(Date.from(Instant.now()));
+        categoryCreate.setUpdatedAt(Date.from(Instant.now()));
+        return categoryRepository.save(categoryCreate);
     }
 
     @Override
-    public Category update(Category category, Long id, MultipartFile file) {
-        Category categoryFind = categoryRepository.findById(id)
+    public Category update(Category category, Long id) {
+        Category categoryExisted = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not Found Category with: " + id));
-        if (file != null && !file.isEmpty()) {
-            String imageUrl = fileStorageService.save(file);
-            // Thiết lập đường dẫn ảnh cho category
-            categoryFind.setImage(imageUrl);
-        }
-        categoryFind.setName(category.getName());
-        categoryFind.setUpdatedAt(Date.from(Instant.now()));
-        Category updateCategory = categoryRepository.save(categoryFind);
-        return updateCategory;
+        categoryExisted.setName(category.getName());
+        categoryExisted.setUpdatedAt(Date.from(Instant.now()));
+        return categoryRepository.save(categoryExisted);
     }
 
     @Override

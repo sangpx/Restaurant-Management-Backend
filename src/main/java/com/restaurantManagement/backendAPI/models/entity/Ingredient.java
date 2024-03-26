@@ -1,8 +1,6 @@
 package com.restaurantManagement.backendAPI.models.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.restaurantManagement.backendAPI.models.entity.enums.EDeskStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,20 +12,23 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "desks")
-public class Desk {
+@Table(name = "ingredients")
+public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
     private String name;
-    @Enumerated(EnumType.STRING)
-    private EDeskStatus status;
+    private Double price;
+    private String unit;
     private Date createdAt;
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "desk", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "ingredient")
     @JsonIgnore
-    private List<Booking> bookingList;
-}
+    private List<ImportDetail> importDetailList;
 
+    @OneToMany(mappedBy = "ingredient")
+    @JsonIgnore
+    private List<IngredientFood> ingredientFoodList;
+}

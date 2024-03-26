@@ -3,7 +3,7 @@ package com.restaurantManagement.backendAPI.services.serviceImpl;
 import com.restaurantManagement.backendAPI.exceptions.RoleAlreadyExistException;
 import com.restaurantManagement.backendAPI.exceptions.UserAlreadyExistException;
 import com.restaurantManagement.backendAPI.exceptions.UserNotFoundException;
-import com.restaurantManagement.backendAPI.models.entity.ERole;
+import com.restaurantManagement.backendAPI.models.entity.enums.ERole;
 import com.restaurantManagement.backendAPI.models.entity.Role;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import com.restaurantManagement.backendAPI.repository.RoleRepository;

@@ -2,32 +2,32 @@ package com.restaurantManagement.backendAPI.models.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.restaurantManagement.backendAPI.models.entity.enums.EDeskStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "desks")
-public class Desk {
+@Table(name = "shifts")
+public class Shift {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NonNull
     private String name;
-    @Enumerated(EnumType.STRING)
-    private EDeskStatus status;
+    private Date startTime;
+    private Date endTime;
     private Date createdAt;
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "desk", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Booking> bookingList;
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
 }
-

@@ -1,6 +1,7 @@
 package com.restaurantManagement.backendAPI.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.restaurantManagement.backendAPI.models.entity.enums.ERole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -20,7 +21,6 @@ public class Role {
 
     @Column(name = "name")
     @NotNull
-//    private String name;
     @Enumerated(EnumType.STRING)
     private ERole name;
 
