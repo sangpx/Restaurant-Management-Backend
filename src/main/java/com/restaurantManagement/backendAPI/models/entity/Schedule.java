@@ -1,5 +1,4 @@
 package com.restaurantManagement.backendAPI.models.entity;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,17 +14,22 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "customers")
-public class Customer {
+@Table(name = "schedules")
+public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String phone;
-    @Column(name = "created_at")
+    private Date workingTime;
     private Date createdAt;
-    @Column(name = "updated_at")
     private Date updatedAt;
-    @Column(name = "accumulated_points")
-    private int accumulatedPoints;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
+    @OneToMany(mappedBy = "schedule")
+    @JsonIgnore
+    private List<Shift> shiftList;
 }

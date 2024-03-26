@@ -1,4 +1,4 @@
-package com.restaurantManagement.backendAPI.models.entity;
+package com.restaurantManagement.backendAPI.models.entity.enums;
 
 public enum ERole {
     ROLE_USER,

@@ -41,21 +41,14 @@ public class CategoryController {
         Category category = categoryService.getDetail(id);
         return ResponseEntity.ok(category);
     }
-
     @PostMapping("/createCategory")
-    public ResponseEntity<Category> createCategory(@RequestParam String name, @RequestParam MultipartFile file){
-        Category createCategory = new Category();
-        createCategory.setName(name);
-        Category savedCategory = categoryService.add(createCategory, file);
-        return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
+    public ResponseEntity<Category> createCategory(@RequestBody Category category){
+        return new ResponseEntity<>(categoryService.add(category), HttpStatus.CREATED);
     }
 
     @PutMapping("/updateCategory/{id}")
-    public ResponseEntity<Category> updateCategory(@RequestParam String name,@PathVariable Long id,@RequestParam MultipartFile file){
-        Category updateCategory = new Category();
-        updateCategory.setName(name);
-        Category savedCategory = categoryService.update(updateCategory, id, file);
-        return new ResponseEntity<>(savedCategory, HttpStatus.OK);
+    public ResponseEntity<Category> updateCategory(@RequestBody Category category, @PathVariable Long id){
+        return new ResponseEntity<>(categoryService.update(category, id), HttpStatus.OK);
     }
 
     @DeleteMapping("deleteCategory/{id}")

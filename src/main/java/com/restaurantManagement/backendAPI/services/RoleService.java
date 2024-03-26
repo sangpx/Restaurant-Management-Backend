@@ -1,6 +1,6 @@
 package com.restaurantManagement.backendAPI.services;
 
-import com.restaurantManagement.backendAPI.models.entity.ERole;
+import com.restaurantManagement.backendAPI.models.entity.enums.ERole;
 import com.restaurantManagement.backendAPI.models.entity.Role;
 import com.restaurantManagement.backendAPI.models.entity.User;
 

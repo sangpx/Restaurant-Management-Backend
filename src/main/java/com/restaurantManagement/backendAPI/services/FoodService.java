@@ -7,8 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface FoodService {
-    Food add(Food food, Long categoryId, MultipartFile file);
-    Food update(Food food, Long id, MultipartFile file, Long categoryId);
+    Food add(Food food, Long categoryId);
+    Food update(Food food, Long id, Long categoryId);
     void delete(Long id);
     Food getDetail(Long id);
     List<Food> searchFood(String query);

@@ -2,9 +2,11 @@ package com.restaurantManagement.backendAPI.models.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.restaurantManagement.backendAPI.models.entity.enums.EDeskStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
@@ -14,20 +16,22 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "desks")
-public class Desk {
+@Table(name = "import_coupon")
+public class ImportCoupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NonNull
     private String name;
-    @Enumerated(EnumType.STRING)
-    private EDeskStatus status;
+    private Date requestDate;
     private Date createdAt;
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "desk", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Booking> bookingList;
-}
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    @OneToMany(mappedBy = "importCoupon")
+    @JsonIgnore
+    private List<ImportDetail> importDetailList;
+}

@@ -47,28 +47,15 @@ public class FoodController {
     }
 
     @PostMapping("/createFood")
-    public ResponseEntity<Food> createFood(@RequestParam String name, @RequestParam double price,
-                                           @RequestParam String description,
-                                           @RequestParam MultipartFile file, @RequestParam Long categoryId){
-        Food createdFood = new Food();
-        createdFood.setName(name);
-        createdFood.setPrice(price);
-        createdFood.setDescription(description);
-        Food savedFood = foodService.add(createdFood, categoryId, file);
-        return new ResponseEntity<>(savedFood, HttpStatus.CREATED);
+    public ResponseEntity<Food> createFood(@RequestBody Food food, @RequestParam Long categoryId){
+        return new ResponseEntity<>(foodService.add(food, categoryId), HttpStatus.CREATED);
     }
 
-
     @PutMapping("/updateFood/{id}")
-    public ResponseEntity<Food> updateFood(@RequestParam String name, @RequestParam double price,
-                                               @RequestParam String description, @PathVariable Long id,
-                                               @RequestParam MultipartFile file, @RequestParam Long categoryId){
-        Food updateFood = new Food();
-        updateFood.setName(name);
-        updateFood.setDescription(description);
-        updateFood.setPrice(price);
-        Food savedFood = foodService.update(updateFood, id, file, categoryId);
-        return new ResponseEntity<>(savedFood, HttpStatus.OK);
+    public ResponseEntity<Food> updateFood(@RequestBody Food food,
+                                                @PathVariable Long id,
+                                                @RequestParam Long categoryId){
+        return new ResponseEntity<>(foodService.update(food, id, categoryId), HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteFood/{id}")

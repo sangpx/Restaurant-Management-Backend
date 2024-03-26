@@ -12,7 +12,7 @@ import com.restaurantManagement.backendAPI.models.dto.catalog.UserDTO;
 import com.restaurantManagement.backendAPI.models.dto.payload.request.SigninRequest;
 import com.restaurantManagement.backendAPI.models.dto.payload.request.SignupRequest;
 import com.restaurantManagement.backendAPI.models.dto.payload.response.PageResult;
-import com.restaurantManagement.backendAPI.models.entity.ERole;
+import com.restaurantManagement.backendAPI.models.entity.enums.ERole;
 import com.restaurantManagement.backendAPI.models.entity.Role;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import com.restaurantManagement.backendAPI.services.RoleService;
@@ -105,7 +105,6 @@ public class UserController {
     userCreate.setPassword(encoder.encode(request.getPassword()));
     userCreate.setEmail(request.getEmail());
     userCreate.setPhone(request.getPhone());
-    userCreate.setGender(request.getGender());
     userCreate.setStatus(true);
     userCreate.setCreatedAt(Date.from(Instant.now()));
     userCreate.setUpdatedAt(Date.from(Instant.now()));

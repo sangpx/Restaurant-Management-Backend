@@ -59,7 +59,6 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPhone(user.getPhone());
         user.setEmail(user.getEmail());
-        user.setGender(user.getGender());
         user.setStatus(true);
         user.setCreatedAt(new Date());
         user.setUpdatedAt(new Date());
@@ -74,7 +73,6 @@ public class UserServiceImpl implements UserService {
         userFind.setUsername(user.getUsername());
         userFind.setPhone(user.getPhone());
         userFind.setEmail(user.getEmail());
-        userFind.setGender(user.getGender());
         // Lấy giá trị hiện tại của trường status
         boolean currentStatus = userFind.isStatus();
         // Đảo ngược giá trị của status
