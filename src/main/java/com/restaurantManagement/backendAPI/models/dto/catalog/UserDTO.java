@@ -1,10 +1,12 @@
 package com.restaurantManagement.backendAPI.models.dto.catalog;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.restaurantManagement.backendAPI.models.entity.Role;
+import com.restaurantManagement.backendAPI.models.entity.enums.ERole;
+import lombok.*;
 
+import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
@@ -13,4 +15,7 @@ public class UserDTO {
     private String email;
     private String phone;
     private boolean status;
+    private List<RoleDTO> roles;
 }
+
+

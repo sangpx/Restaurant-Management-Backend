@@ -7,6 +7,9 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.restaurantManagement.backendAPI.models.dto.catalog.FoodDTO;
+import com.restaurantManagement.backendAPI.models.dto.catalog.RoleDTO;
+import com.restaurantManagement.backendAPI.models.dto.catalog.UserDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -65,5 +68,4 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Booking> bookingList;
-
 }

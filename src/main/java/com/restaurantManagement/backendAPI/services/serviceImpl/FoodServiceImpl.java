@@ -91,7 +91,8 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public List<FoodDTO> getAlls() {
         List<Food> listFood = foodRepository.findAll();
-        List<FoodDTO> foodDTOList = listFood.stream().map(food -> modelMapper.map(food, FoodDTO.class))
+        List<FoodDTO> foodDTOList = listFood.stream()
+                .map(food -> modelMapper.map(food, FoodDTO.class))
                 .collect(Collectors.toList());
         return foodDTOList;
     }

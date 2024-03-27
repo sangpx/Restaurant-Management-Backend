@@ -66,8 +66,7 @@ public class DeskServiceImpl implements DeskService {
 
     @Override
     public List<Desk> getAlls() {
-        List<Desk> deskList = deskRepository.findAll();
-        return deskList;
+        return deskRepository.findAll();
     }
 
     @Override
