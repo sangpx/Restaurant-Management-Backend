@@ -1,11 +1,10 @@
-package com.restaurantManagement.backendAPI.models.dto.response;
+package com.restaurantManagement.backendAPI.models.dto.payload.response;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FileUploadResponse {

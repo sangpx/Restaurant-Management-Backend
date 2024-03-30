@@ -48,16 +48,16 @@ public class DeskController {
         return new ResponseEntity<>(savedDesk, HttpStatus.CREATED);
     }
 
-    @PutMapping("/updateDesk")
-    public ResponseEntity<Desk> updateDesk(@RequestBody Desk desk, @RequestParam Long floorId, @RequestParam Long deskId){
+    @PutMapping("/updateDesk/{deskId}")
+    public ResponseEntity<Desk> updateDesk(@RequestBody Desk desk, @PathVariable Long deskId){
         Desk savedDesk = deskService.update(desk, deskId);
         return new ResponseEntity<>(savedDesk, HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteDesk/{id}")
+    @DeleteMapping("/deleteDesk/{id}")
     public ResponseEntity<String> deleteDesk(@PathVariable("id") Long id){
         deskService.delete(id);
-        return ResponseEntity.ok("Desk deleted successfully!.");
+        return ResponseEntity.ok("Xóa bàn ăn thành công!");
     }
 
     @GetMapping("/searchDesks")

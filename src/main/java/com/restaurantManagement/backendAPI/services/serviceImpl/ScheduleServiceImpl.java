@@ -1,5 +1,6 @@
 package com.restaurantManagement.backendAPI.services.serviceImpl;
 
+import com.restaurantManagement.backendAPI.exceptions.NotFoundException;
 import com.restaurantManagement.backendAPI.models.entity.Desk;
 import com.restaurantManagement.backendAPI.models.entity.Schedule;
 import com.restaurantManagement.backendAPI.repository.ScheduleRepository;
@@ -31,7 +32,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public Schedule update(Schedule schedule, Long id) {
         Schedule scheduleExist = scheduleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Schedule with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin lịch!"));
         scheduleExist.setName(schedule.getName());
         scheduleExist.setWorkingTime(schedule.getWorkingTime());
         scheduleExist.setUpdatedAt(Date.from(Instant.now()));
@@ -41,14 +42,14 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public void delete(Long id) {
         Schedule scheduleExist = scheduleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Schedule with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin lịch!"));
         scheduleRepository.delete(scheduleExist);
     }
 
     @Override
     public Schedule getDetail(Long id) {
         Schedule scheduleExist = scheduleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Schedule with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin lịch!"));
         return scheduleExist;
     }
 

@@ -1,6 +1,7 @@
 package com.restaurantManagement.backendAPI.controllers;
 
 
+import com.restaurantManagement.backendAPI.exceptions.RoleAlreadyExistException;
 import com.restaurantManagement.backendAPI.models.dto.payload.response.MessageResponse;
 import com.restaurantManagement.backendAPI.models.entity.Role;
 import com.restaurantManagement.backendAPI.models.entity.User;
@@ -29,7 +30,7 @@ public class RoleController {
     }
 
     @PostMapping("/createRole")
-    public ResponseEntity<Role> createRole(@RequestBody Role role) {
+    public ResponseEntity<Role> createRole(@RequestBody Role role){
         return new ResponseEntity<>(roleService.createRole(role), HttpStatus.CREATED);
     }
 

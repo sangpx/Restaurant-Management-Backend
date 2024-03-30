@@ -1,5 +1,6 @@
 package com.restaurantManagement.backendAPI.services.serviceImpl;
 
+import com.restaurantManagement.backendAPI.exceptions.NotFoundException;
 import com.restaurantManagement.backendAPI.models.dto.catalog.FoodDTO;
 import com.restaurantManagement.backendAPI.models.entity.Category;
 import com.restaurantManagement.backendAPI.models.entity.Food;
@@ -46,7 +47,7 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Food update(Food food, Long id, Long categoryId) {
         Food foodExist = foodRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Food with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin món ăn!"));
         Category category = new Category();
         category.setId(categoryId);
         foodExist.setCategory(category);
@@ -61,14 +62,14 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public void delete(Long id) {
         Food foodExist = foodRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Food with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin món ăn!"));
         foodRepository.delete(foodExist);
     }
 
     @Override
     public Food getDetail(Long id) {
         return foodRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Food with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin món ăn!"));
     }
 
     @Override

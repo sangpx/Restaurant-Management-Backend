@@ -45,7 +45,7 @@ public class ScheduleController {
     @DeleteMapping("deleteSchedule/{id}")
     public ResponseEntity<String> deleteSchedule(@PathVariable("id") Long id){
         scheduleService.delete(id);
-        return ResponseEntity.ok("Schedule deleted successfully!.");
+        return ResponseEntity.ok("Xóa lịch làm việc thành công!");
     }
 //
 //    @GetMapping("/searchSchedules")

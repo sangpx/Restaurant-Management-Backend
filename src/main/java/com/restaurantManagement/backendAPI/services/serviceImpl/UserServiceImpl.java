@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public User add(User user) {
         Optional<User> theUser = userRepository.findByUsername(user.getUsername());
         if (theUser.isPresent()){
-            throw new UserAlreadyExistException("A user with " + user.getUsername() + " already exists");
+            throw new UserAlreadyExistException("Người dùng" + user.getUsername() + " đã tồn tại!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPhone(user.getPhone());
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(User user, Long id) {
         User userFind = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found!"));
+                .orElseThrow(() -> new UserNotFoundException("Không tìm thấy người dùng!"));
 
         userFind.setUsername(user.getUsername());
         userFind.setPhone(user.getPhone());
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getDetail(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found!"));
+                .orElseThrow(() -> new UserNotFoundException("Không tìm thấy người dùng!"));
         return modelMapper.map(user, UserDTO.class);
     }
 
