@@ -20,7 +20,8 @@ public class RestaurantManagementApplication implements CommandLineRunner {
 	FileStorageService fileStorageService;
 
 	public static void main(String[] args) {
-    SpringApplication.run(RestaurantManagementApplication.class, args);
+
+		SpringApplication.run(RestaurantManagementApplication.class, args);
 	}
 
 	@Override
