@@ -46,6 +46,6 @@ public class ShiftController {
     @DeleteMapping("deleteShift/{id}")
     public ResponseEntity<String> deleteShift(@PathVariable("id") Long id){
         shiftService.delete(id);
-        return ResponseEntity.ok("Shift deleted successfully!.");
+        return ResponseEntity.ok("Xóa ca làm việc thành công!");
     }
 }

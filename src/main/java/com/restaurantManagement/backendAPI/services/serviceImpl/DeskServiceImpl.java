@@ -1,5 +1,6 @@
 package com.restaurantManagement.backendAPI.services.serviceImpl;
 
+import com.restaurantManagement.backendAPI.exceptions.NotFoundException;
 import com.restaurantManagement.backendAPI.models.entity.Desk;
 import com.restaurantManagement.backendAPI.models.entity.enums.EDeskStatus;
 import com.restaurantManagement.backendAPI.repository.DeskRepository;
@@ -37,7 +38,7 @@ public class DeskServiceImpl implements DeskService {
     @Override
     public Desk update(Desk desk, Long deskId) {
         Desk deskExist = deskRepository.findById(deskId)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Desk with id: " + deskId));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin bàn!"));
         deskExist.setName(desk.getName());
         deskExist.setStatus(EDeskStatus.EMPTY);
         deskExist.setUpdatedAt(Date.from(Instant.now()));
@@ -47,14 +48,14 @@ public class DeskServiceImpl implements DeskService {
     @Override
     public void delete(Long id) {
         Desk deskExist = deskRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Desk with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin bàn!"));
         deskRepository.delete(deskExist);
     }
 
     @Override
     public Desk getDetail(Long id) {
         Desk deskEntity = deskRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Desk with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin bàn!"));
         return deskEntity;
     }
 

@@ -61,7 +61,7 @@ public class FoodController {
     @DeleteMapping("/deleteFood/{id}")
     public ResponseEntity<String> deleteFood(@PathVariable("id") Long id){
         foodService.delete(id);
-        return ResponseEntity.ok("Food deleted successfully!.");
+        return ResponseEntity.ok("Xóa món ăn thành công!");
     }
 
     @GetMapping("/searchFoods")

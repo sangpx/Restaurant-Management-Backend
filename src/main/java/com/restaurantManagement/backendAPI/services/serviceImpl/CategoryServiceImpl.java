@@ -1,5 +1,6 @@
 package com.restaurantManagement.backendAPI.services.serviceImpl;
 
+import com.restaurantManagement.backendAPI.exceptions.NotFoundException;
 import com.restaurantManagement.backendAPI.models.entity.Category;
 import com.restaurantManagement.backendAPI.repository.CategoryRepository;
 import com.restaurantManagement.backendAPI.services.CategoryService;
@@ -32,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category update(Category category, Long id) {
         Category categoryExisted = categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not Found Category with: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy loại món ăn!"));
         categoryExisted.setName(category.getName());
         categoryExisted.setUpdatedAt(Date.from(Instant.now()));
         return categoryRepository.save(categoryExisted);
@@ -41,14 +42,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void delete(Long id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not Found Category with: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy loại món ăn!"));
         categoryRepository.delete(category);
     }
 
     @Override
     public Category getDetail(Long id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not Found Category with: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy loại món ăn!"));
         return category;
     }
 

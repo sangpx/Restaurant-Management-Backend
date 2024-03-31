@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.restaurantManagement.backendAPI.models.dto.catalog.UserDTO;
 import com.restaurantManagement.backendAPI.models.dto.payload.request.SigninRequest;
 import com.restaurantManagement.backendAPI.models.dto.payload.request.SignupRequest;
@@ -31,6 +32,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import com.restaurantManagement.backendAPI.models.dto.payload.response.JwtResponse;
@@ -42,6 +44,8 @@ import com.restaurantManagement.backendAPI.models.dto.payload.response.MessageRe
 @RequestMapping("/api/users")
 
 public class UserController {
+  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
   @Autowired
   AuthenticationManager authenticationManager;
 
@@ -78,25 +82,17 @@ public class UserController {
                          roles));
   }
 
-//  @PreAuthorize("hasRole('ADMIN')")
-//  @PostMapping("/signup")
-//  public ResponseEntity<MessageResponse> signUp(@RequestBody User user){
-//    User signUpUser = userService.add(user);
-//    return ResponseEntity.ok(new MessageResponse("SignUp Success!", true));
-//  }
   @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest request) {
+  public ResponseEntity<User> registerUser(@Valid @RequestBody SignupRequest request) {
     if (userService.existsByUsername(request.getUsername())) {
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Error: Username is already taken!", false));
+      logger.error("Tên người dùng đã tồn tại: {}", request.getUsername());
+      return ResponseEntity.badRequest().body(null);
     }
 
     if (userService.existsByEmail(request.getEmail())) {
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Error: Email is already in use!", false));
+      logger.error("Email đã tồn tại: {}", request.getEmail());
+      return ResponseEntity.badRequest().body(null);
     }
 
     // Create new user's account
@@ -113,40 +109,39 @@ public class UserController {
     //Kiem tra Role co bi null khong
     if (strRoles == null) {
       Role userRole = roleService.findByRoleName(ERole.ROLE_USER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+              .orElseThrow(() -> new RuntimeException("Không tìm thấy Quyền"));
       //Add Role mac dinh la User
       roles.add(userRole);
     } else {
       strRoles.forEach(role -> {
         switch (role) {
-          case "admin":
+          case "ROLE_ADMIN":
             Role adminRole = roleService.findByRoleName(ERole.ROLE_ADMIN)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy Quyền!"));
             roles.add(adminRole);
             break;
 
-          case "receptionist":
+          case "ROLE_RECEPTIONIST":
             Role receptionistRole = roleService.findByRoleName(ERole.ROLE_RECEPTIONIST)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy Quyền!"));
             roles.add(receptionistRole);
             break;
 
-          case "cashier":
+          case "ROLE_CASHIER":
             Role cashierRole = roleService.findByRoleName(ERole.ROLE_CASHIER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy Quyền!"));
             roles.add(cashierRole);
             break;
 
           default:
             Role userRole = roleService.findByRoleName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy Quyền!"));
             roles.add(userRole);
         }
       });
     }
     userCreate.setRoles(roles);
-    userService.saveOrUpdate(userCreate);
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!", true));
+    return ResponseEntity.ok(userService.saveOrUpdate(userCreate));
   }
 
   @PreAuthorize("hasRole('ADMIN')")
@@ -167,7 +162,7 @@ public class UserController {
   public ResponseEntity<MessageResponse> update(
           @RequestBody User user, @PathVariable Long id){
     User updateUser = userService.update(user, id);
-    return ResponseEntity.ok(new MessageResponse("Updated Success!", true));
+    return ResponseEntity.ok(new MessageResponse("Cập nhật thành công!", true));
   }
 
   @PreAuthorize("hasRole('ADMIN')")

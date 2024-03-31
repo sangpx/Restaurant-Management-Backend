@@ -1,5 +1,6 @@
 package com.restaurantManagement.backendAPI.services.serviceImpl;
 
+import com.restaurantManagement.backendAPI.exceptions.NotFoundException;
 import com.restaurantManagement.backendAPI.models.entity.Desk;
 import com.restaurantManagement.backendAPI.models.entity.Schedule;
 import com.restaurantManagement.backendAPI.models.entity.Shift;
@@ -37,7 +38,7 @@ public class ShiftServiceImpl implements ShiftService {
     @Override
     public Shift update(Shift shift, Long id, Long scheduleId) {
         Shift shiftExist = shiftRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Shift with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin ca làm việc!"));
         shiftExist.setName(shift.getName());
         shiftExist.setStartTime(shift.getStartTime());
         shiftExist.setEndTime(shift.getEndTime());
@@ -51,14 +52,14 @@ public class ShiftServiceImpl implements ShiftService {
     @Override
     public void delete(Long id) {
         Shift shiftExist = shiftRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Shift with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin ca làm việc!"));
         shiftRepository.delete(shiftExist);
     }
 
     @Override
     public Shift getDetail(Long id) {
         return shiftRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found Shift with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin ca làm việc!"));
     }
 
     @Override

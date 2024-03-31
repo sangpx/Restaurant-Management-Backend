@@ -51,10 +51,10 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.update(category, id), HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteCategory/{id}")
+    @DeleteMapping("/deleteCategory/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){
         categoryService.delete(id);
-        return ResponseEntity.ok("Category deleted successfully!.");
+        return ResponseEntity.ok("xóa loại món ăn thành công!");
     }
 
     @GetMapping("/searchCategories")

@@ -23,11 +23,13 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date time;
-    private String customer_name;
+    private String customerName;
     private String address;
     private int quantityPerson;
+
     @Enumerated(EnumType.STRING)
     private EBookingStatus status;
+
     private Date createdAt;
     private Date updatedAt;
 
