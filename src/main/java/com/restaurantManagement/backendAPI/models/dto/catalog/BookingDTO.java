@@ -23,6 +23,4 @@ public class BookingDTO {
     @Enumerated(EnumType.STRING)
     private EBookingStatus status;
     private Long deskId;
-    private Date createdAt;
-    private Date updatedAt;
 }
