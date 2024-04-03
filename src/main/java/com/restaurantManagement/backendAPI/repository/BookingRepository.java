@@ -13,10 +13,4 @@ import java.util.List;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    @Query("SELECT bk FROM Booking bk WHERE " +
-            "bk.customerName LIKE CONCAT('%', :query, '%') " +
-            "OR bk.time = :time " +
-            "OR bk.status = :status")
-    List<Booking> searchBookings(String query, Date time, EBookingStatus status);
-
 }

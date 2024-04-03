@@ -25,11 +25,20 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
+
+    @PostMapping("/addBooking")
+    public ResponseEntity<BookingDTO> addBooking(
+            //, @RequestParam EBookingStatus bookingStatus
+            @RequestBody BookingDTO bookingDTO) {
+        return new ResponseEntity<>(bookingService.addBooking(bookingDTO),
+                HttpStatus.CREATED);
+    }
+
     @PostMapping("/addMultipleBookings")
     public ResponseEntity<List<BookingDTO>> addMultipleBookings(
-            @RequestBody List<BookingDTO> bookingDTOs, @RequestParam EBookingStatus bookingStatus
-    ) {
-        return new ResponseEntity<>(bookingService.addMultipleBookings(bookingDTOs, bookingStatus),
+            //, @RequestParam EBookingStatus bookingStatus
+            @RequestBody List<BookingDTO> bookingDTOs) {
+        return new ResponseEntity<>(bookingService.addMultipleBookings(bookingDTOs),
                 HttpStatus.CREATED);
     }
 

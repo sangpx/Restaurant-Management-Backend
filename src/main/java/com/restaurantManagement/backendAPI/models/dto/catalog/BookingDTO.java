@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
@@ -16,11 +17,13 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingDTO {
-    private Date time;
+    private Long id;
+//    private Date receivingTime;
     private String customerName;
+    private String phone;
     private String address;
     private int quantityPerson;
-    @Enumerated(EnumType.STRING)
-    private EBookingStatus status;
+//    @Enumerated(EnumType.STRING)
+//    private EBookingStatus status;
     private Long deskId;
 }
