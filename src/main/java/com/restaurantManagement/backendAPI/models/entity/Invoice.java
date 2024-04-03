@@ -26,11 +26,15 @@ public class Invoice {
     private String methodPay;
     @Enumerated(EnumType.STRING)
     private EInvoiceStatus status;
+    // Giờ vào
+    private Date checkInTime;
+    // Giờ ra
+    private Date checkOutTime;
     private Date createdAt;
     private Date updatedAt;
 
-
     @OneToMany(mappedBy = "invoice")
+    @JsonIgnore
     private List<InvoiceDetail> invoiceDetailList;
 
     @ManyToOne(fetch = FetchType.LAZY)

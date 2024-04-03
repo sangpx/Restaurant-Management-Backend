@@ -1,7 +1,6 @@
 package com.restaurantManagement.backendAPI.models.dto.catalog;
 
-
-import com.restaurantManagement.backendAPI.models.entity.enums.EBookingStatus;
+import com.restaurantManagement.backendAPI.models.entity.enums.EInvoiceStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -9,21 +8,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingDTO {
+public class InvoiceDTO {
     private Long id;
-//    private Date receivingTime;
-    private String customerName;
-    private String phone;
-    private String address;
-    private int quantityPerson;
+    private Date date;
+    private Double totalPrice;
+    private String methodPay;
     @Enumerated(EnumType.STRING)
-    private EBookingStatus status;
+    private EInvoiceStatus status;
+    private Date checkInTime;
+    private Date checkOutTime;
+    private Date createdAt;
+    private Date updatedAt;
     private Long deskId;
 }

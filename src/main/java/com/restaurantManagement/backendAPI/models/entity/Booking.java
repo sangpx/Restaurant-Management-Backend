@@ -28,10 +28,8 @@ public class Booking {
     private String address;
     private int quantityPerson;
     private String phone;
-//
-//    @Enumerated(EnumType.STRING)
-//    private EBookingStatus status;
-
+    @Enumerated(EnumType.STRING)
+    private EBookingStatus status;
     private Date createdAt;
     private Date updatedAt;
 
