@@ -1,7 +1,6 @@
 package com.restaurantManagement.backendAPI.controllers;
 
 
-import com.restaurantManagement.backendAPI.models.dto.catalog.BookingDTO;
 import com.restaurantManagement.backendAPI.models.dto.catalog.InvoiceDTO;
 import com.restaurantManagement.backendAPI.models.dto.catalog.InvoiceDetailDTO;
 import com.restaurantManagement.backendAPI.models.entity.Invoice;
@@ -36,20 +35,29 @@ public class InvoiceController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updateInvoice(@RequestBody InvoiceDetailDTO invoiceDetailDTO) {
-        invoiceService.updateInvoiceDetail(invoiceDetailDTO);
-        return ResponseEntity.ok("Món ăn đã được cập nhật thành công!");
+    public ResponseEntity<InvoiceDetailDTO> updateInvoice(@RequestBody InvoiceDetailDTO invoiceDetailDTO) {
+        return ResponseEntity.ok(invoiceService.updateInvoiceDetail(invoiceDetailDTO));
     }
 
     @PostMapping("/addFoodToInvoice")
-    public ResponseEntity<String> addFoodToInvoice(@RequestBody InvoiceDetailDTO invoiceDetailDTO) {
-        invoiceService.addFoodToInvoice(invoiceDetailDTO);
-        return ResponseEntity.ok("Món ăn đã được thêm vào hóa đơn thành công!");
+    public ResponseEntity<InvoiceDetailDTO> addFoodToInvoice(@RequestBody InvoiceDetailDTO invoiceDetailDTO) {
+        return ResponseEntity.ok(invoiceService.addFoodToInvoiceDetail(invoiceDetailDTO));
     }
 
     @PostMapping("/{invoiceId}/pay")
     public ResponseEntity<String> payInvoice(@PathVariable Long invoiceId) {
         invoiceService.payInvoice(invoiceId);
         return ResponseEntity.ok("Hóa đơn đã được thanh toán thành công!");
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteInvoiceDetail(@RequestParam Long invoiceId, @RequestParam Long foodId) {
+        invoiceService.removeFoodFromInvoiceDetail(invoiceId, foodId);
+        return ResponseEntity.ok("Món ăn đã được xóa thành công!");
+    }
+
+    @GetMapping("/getInvoiceDetail/{invoiceId}")
+    public ResponseEntity<List<InvoiceDetailDTO>> getDetailInvoice(@PathVariable Long invoiceId) {
+        return ResponseEntity.ok(invoiceService.getInvoiceDetailsByInvoiceId(invoiceId));
     }
 }

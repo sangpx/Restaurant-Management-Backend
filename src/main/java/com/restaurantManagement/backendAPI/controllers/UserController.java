@@ -82,7 +82,7 @@ public class UserController {
                          roles));
   }
 
-  @PreAuthorize("hasRole('ADMIN')")
+//  @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
   @PostMapping("/signup")
   public ResponseEntity<User> registerUser(@Valid @RequestBody SignupRequest request) {
     if (userService.existsByUsername(request.getUsername())) {

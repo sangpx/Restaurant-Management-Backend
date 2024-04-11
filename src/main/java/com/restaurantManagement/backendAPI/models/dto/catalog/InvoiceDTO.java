@@ -18,7 +18,7 @@ public class InvoiceDTO {
     private Long id;
     private Date date;
     private Double totalPrice;
-    private String methodPay;
+//    private String methodPay;
     @Enumerated(EnumType.STRING)
     private EInvoiceStatus status;
     private Date checkInTime;
@@ -26,4 +26,5 @@ public class InvoiceDTO {
     private Date createdAt;
     private Date updatedAt;
     private Long deskId;
+    private Long bookingId;
 }

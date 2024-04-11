@@ -57,7 +57,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceDTO.setId(invoice.getId());
             invoiceDTO.setDate(invoice.getDate());
             invoiceDTO.setTotalPrice(invoice.getTotalPrice());
-            invoiceDTO.setMethodPay(invoice.getMethodPay());
+            invoiceDTO.setBookingId(invoice.getBooking().getId());
             invoiceDTO.setStatus(invoice.getStatus());
             invoiceDTO.setCheckInTime(invoice.getCheckInTime());
             invoiceDTO.setCheckOutTime(invoice.getCheckOutTime());
@@ -74,11 +74,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public Invoice createInvoice(Long bookingId) {
-//        Booking booking = bookingRepository.findById(bookingId)
-//                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin đặt bàn!"));
-//        if (booking == null) {
-//            throw new NotFoundException("Không tìm thấy thông tin đặt bàn!");
-//        }
         // Kiểm tra xem đặt bàn có hợp lệ không
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy đặt bàn hợp lệ!"));
@@ -89,9 +84,17 @@ public class InvoiceServiceImpl implements InvoiceService {
             throw new NotFoundException("Đặt bàn này chưa được thanh toán!");
         }
 
-        if (booking.getStatus() == EBookingStatus.INACTIVE) {
-            throw new NotFoundException("Không thể tạo hóa đơn từ đặt bàn đã vô hiệu hóa!");
+        if (booking.getStatus() == EBookingStatus.PENDING
+                || booking.getStatus() == EBookingStatus.HOLDING_A_SEAT ) {
+            throw new NotFoundException("Không thể tạo hóa đơn khi đặt bàn ở trạng thái này!");
         }
+
+        if (booking.getStatus() == EBookingStatus.INACTIVE) {
+            throw new NotFoundException("Không thể tạo hóa đơn từ đặt bàn đã hoàn thành!");
+        }
+
+        booking.setStatus(EBookingStatus.WORKING);
+        bookingRepository.save(booking);
 
         // Lấy thông tin về Nhân viên Đặt Bàn từ token JWT
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -116,7 +119,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void addFoodToInvoice(InvoiceDetailDTO invoiceDetailDTO) {
+    public InvoiceDetailDTO addFoodToInvoiceDetail(InvoiceDetailDTO invoiceDetailDTO) {
         Invoice invoice = invoiceRepository.findById(invoiceDetailDTO.getInvoiceId())
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin hóa đơn!"));
 
@@ -142,38 +145,31 @@ public class InvoiceServiceImpl implements InvoiceService {
         newInvoiceDetail.setIntoMoney(food.getPrice() * invoiceDetailDTO.getQuantity());
         newInvoiceDetail.setCreatedAt(new Date());
         newInvoiceDetail.setUpdatedAt(new Date());
-        invoiceDetailRepository.save(newInvoiceDetail);
+        InvoiceDetail invoiceDetailSaved = invoiceDetailRepository.save(newInvoiceDetail);
 
         // Cập nhật trạng thái của hóa đơn thành "ORDERED_FOOD"
         invoice.setStatus(EInvoiceStatus.ORDERED_FOOD);
         // Cập nhật tổng tiền của hóa đơn
         updateTotalPrice(invoice);
         invoiceRepository.save(invoice);
+        return modelMapper.map(invoiceDetailSaved, InvoiceDetailDTO.class);
     }
 
     @Override
-    public void updateInvoiceDetail(InvoiceDetailDTO invoiceDetailDTO) {
+    public InvoiceDetailDTO updateInvoiceDetail(InvoiceDetailDTO invoiceDetailDTO) {
         Invoice invoice = invoiceRepository.findById(invoiceDetailDTO.getInvoiceId())
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin hóa đơn!"));
-
         // Kiểm tra xem hóa đơn có ở trạng thái "PAID" không
         if (invoice.getStatus() == EInvoiceStatus.PAID) {
             throw new NotFoundException("Không thể chỉnh sửa hóa đơn đã thanh toán!");
         }
-
         // Kiểm tra chi tiết hóa đơn tồn tại
         KeyInvoiceDetail key = new KeyInvoiceDetail();
         key.setInvoiceId(invoiceDetailDTO.getInvoiceId());
         key.setFoodId(invoiceDetailDTO.getFoodId());
         InvoiceDetail invoiceDetail = invoiceDetailRepository.findById(key)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy hóa đơn chi tiết"));
-
-        // Lấy số lượng hiện tại của món ăn
-        int currentQuantity = invoiceDetail.getQuantity();
-        // Số lượng mới sẽ là tổng của số lượng hiện tại và sự thay đổi
-        int newQuantity = currentQuantity + invoiceDetailDTO.getQuantity();
-        // Cập nhật số lượng món
-        invoiceDetail.setQuantity(newQuantity);
+        invoiceDetail.setQuantity(invoiceDetailDTO.getQuantity());
 
         // Tính thành tiền của món
         double intoMoney = invoiceDetail.getQuantity() * invoiceDetail.getFood().getPrice();
@@ -181,16 +177,52 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         invoiceDetail.setUpdatedAt(new Date());
         // Lưu chi tiết hóa đơn
-        invoiceDetailRepository.save(invoiceDetail);
+        InvoiceDetail invoiceDetailSaved = invoiceDetailRepository.save(invoiceDetail);
 
         // Cập nhật tổng tiền của hóa đơn
         updateTotalPrice(invoice);
+        invoice.setUpdatedAt(new Date());
+        invoiceRepository.save(invoice);
+        return modelMapper.map(invoiceDetailSaved, InvoiceDetailDTO.class);
+    }
+
+    @Override
+    public void removeFoodFromInvoiceDetail(Long invoiceId, Long foodId) {
+        Invoice invoice = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin hóa đơn!"));
+        Food food = foodRepository.findById(foodId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin món ăn!"));
+
+        // Tìm kiếm chi tiết hóa đơn dựa trên invoiceId và foodId
+        KeyInvoiceDetail key = new KeyInvoiceDetail(invoiceId, foodId);
+        InvoiceDetail invoiceDetail = invoiceDetailRepository.findById(key)
+                .orElseThrow(() ->
+                        new NotFoundException("Không tìm thấy món ăn trong chi tiết hóa đơn!"));
+
+        // Xóa món ăn khỏi chi tiết hóa đơn
+        invoiceDetailRepository.delete(invoiceDetail);
+
+        // Kiểm tra số lượng mục chi tiết hóa đơn sau khi xóa
+        List<InvoiceDetail> remainingDetails = invoiceDetailRepository
+                .findByKeyInvoiceDetail_InvoiceId(invoiceId);
+        if (remainingDetails.isEmpty()) {
+            invoice.setStatus(EInvoiceStatus.PENDING);
+        }
+
+        // Cập nhật tổng tiền của hóa đơn
+        updateTotalPrice(invoice);
+        invoice.setUpdatedAt(new Date());
+        invoiceRepository.save(invoice);
     }
 
     @Override
     public void payInvoice(Long invoiceId) {
         Invoice invoice = invoiceRepository.findById(invoiceId)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin hóa đơn!"));
+
+        if (invoice.getStatus() == EInvoiceStatus.PENDING) {
+            throw new NotFoundException("Không thể thanh toán hóa đơn khi ở trong trạng thái Đang chờ!");
+        }
 
         // Cập nhật trạng thái của hóa đơn thành "PAID" và giờ ra
         invoice.setStatus(EInvoiceStatus.PAID);
@@ -204,6 +236,23 @@ public class InvoiceServiceImpl implements InvoiceService {
         // Cập nhật trạng thái của đặt bàn thành "INACTIVE"
         invoice.getBooking().setStatus(EBookingStatus.INACTIVE);
         bookingRepository.save(invoice.getBooking());
+    }
+
+    @Override
+    public List<InvoiceDetailDTO> getInvoiceDetailsByInvoiceId(Long invoiceId) {
+        List<InvoiceDetail> invoiceDetails = invoiceDetailRepository.findByKeyInvoiceDetail_InvoiceId(invoiceId);;
+        List<InvoiceDetailDTO> invoiceDetailDTOS = new ArrayList<>();
+        for (InvoiceDetail invoiceDetail : invoiceDetails) {
+            InvoiceDetailDTO invoiceDetailDTO = new InvoiceDetailDTO();
+            // Sao chép các thuộc tính từ Invoice sang InvoiceDTO
+            invoiceDetailDTO.setInvoiceId(invoiceDetail.getKeyInvoiceDetail().getInvoiceId());
+            invoiceDetailDTO.setFoodId(invoiceDetail.getKeyInvoiceDetail().getFoodId());
+            invoiceDetailDTO.setQuantity(invoiceDetail.getQuantity());
+            invoiceDetailDTO.setIntoMoney(invoiceDetail.getIntoMoney());
+            invoiceDetailDTO.setNameFood(invoiceDetail.getFood().getName());
+            invoiceDetailDTOS.add(invoiceDetailDTO);
+        }
+        return invoiceDetailDTOS;
     }
 
 
