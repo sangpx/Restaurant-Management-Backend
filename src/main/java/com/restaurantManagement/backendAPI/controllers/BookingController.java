@@ -1,10 +1,6 @@
 package com.restaurantManagement.backendAPI.controllers;
 
 import com.restaurantManagement.backendAPI.models.dto.catalog.BookingDTO;
-import com.restaurantManagement.backendAPI.models.entity.Booking;
-import com.restaurantManagement.backendAPI.models.entity.Category;
-import com.restaurantManagement.backendAPI.models.entity.Desk;
-import com.restaurantManagement.backendAPI.models.entity.enums.EBookingStatus;
 import com.restaurantManagement.backendAPI.services.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,51 +9,77 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
-@PreAuthorize("hasRole('ADMIN')")
 public class BookingController {
     @Autowired
     private BookingService bookingService;
 
 
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/customerAddBooking")
+    public ResponseEntity<BookingDTO> customerAddBooking(
+            @RequestBody BookingDTO bookingDTO) {
+        return new ResponseEntity<>(bookingService.customerAddBooking(bookingDTO),
+                HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+    @PutMapping("/holdingDeskCustomer")
+    public ResponseEntity<BookingDTO> holdingDeskCustomer(
+            @RequestParam Long bookingId, @RequestParam Long deskId) {
+        return new ResponseEntity<>(bookingService.holdingDeskCustomer(bookingId, deskId),
+                HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+    @PutMapping("/confirmDeskCustomer")
+    public ResponseEntity<BookingDTO> confirmDeskCustomer(
+            @RequestParam Long bookingId) {
+        return new ResponseEntity<>(bookingService.confirmDeskCustomer(bookingId),
+                HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
     @PostMapping("/addBooking")
     public ResponseEntity<BookingDTO> addBooking(
-            //, @RequestParam EBookingStatus bookingStatus
             @RequestBody BookingDTO bookingDTO) {
         return new ResponseEntity<>(bookingService.addBooking(bookingDTO),
                 HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
     @PostMapping("/addMultipleBookings")
     public ResponseEntity<List<BookingDTO>> addMultipleBookings(
-            //, @RequestParam EBookingStatus bookingStatus
             @RequestBody List<BookingDTO> bookingDTOs) {
         return new ResponseEntity<>(bookingService.addMultipleBookings(bookingDTOs),
                 HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
     @PutMapping("/updateBooking/{id}")
     public ResponseEntity<BookingDTO> updateBooking(
             @RequestBody BookingDTO bookingDTO, @PathVariable Long id) {
-        return new ResponseEntity<>(bookingService.update(bookingDTO, id), HttpStatus.OK);
+        return new ResponseEntity<>(bookingService.updateBooking(bookingDTO, id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
     @GetMapping("/getAlls")
     public ResponseEntity<List<BookingDTO>> getAlls() {
         return ResponseEntity.ok(bookingService.getAlls());
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
     @GetMapping("/getDetailBooking/{id}")
     public ResponseEntity<BookingDTO> getDetailBooking(@PathVariable("id") Long id){
         return ResponseEntity.ok(bookingService.getDetail(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
     @DeleteMapping("/deleteBooking/{id}")
     public ResponseEntity<String> deleteBooking(@PathVariable("id") Long id){
         bookingService.delete(id);

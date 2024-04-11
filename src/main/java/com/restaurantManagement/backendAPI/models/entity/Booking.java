@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -23,15 +24,14 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    private Date receivingTime;
+    private LocalDateTime bookingTime;
     private String customerName;
     private String address;
+    private String email;
     private int quantityPerson;
     private String phone;
-//
-//    @Enumerated(EnumType.STRING)
-//    private EBookingStatus status;
-
+    @Enumerated(EnumType.STRING)
+    private EBookingStatus status;
     private Date createdAt;
     private Date updatedAt;
 
