@@ -66,7 +66,7 @@ public class BookingServiceImpl implements BookingService {
         bookingCreate.setEmail(bookingDTO.getEmail());
 
         // Chuyển đổi chuỗi bookingTime sang LocalDateTime và thiết lập vào đối tượng Booking
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime bookingTime = LocalDateTime.parse(bookingDTO.getBookingTime(), formatter);
         // Kiểm tra nếu ngày đặt nhỏ hơn ngày hiện tại
         if (bookingTime.isBefore(LocalDateTime.now())) {
@@ -151,6 +151,7 @@ public class BookingServiceImpl implements BookingService {
         bookingCreate.setUser(currentUser);
         bookingCreate.setCustomerName(bookingDTO.getCustomerName());
         bookingCreate.setPhone(bookingDTO.getPhone());
+        bookingCreate.setBookingTime(LocalDateTime.now());
         bookingCreate.setEmail(bookingDTO.getEmail());
         bookingCreate.setAddress(bookingDTO.getAddress());
         bookingCreate.setQuantityPerson(bookingDTO.getQuantityPerson());
@@ -286,7 +287,7 @@ public class BookingServiceImpl implements BookingService {
         message.setText("Xin chào " + booking.getCustomerName() + ",\n\n"
                 + "Chúng tôi rất tiếc phải thông báo rằng đặt bàn của bạn tại nhà hàng chúng tôi đã bị hủy.\n"
                 + "Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi.\n"
-                + "Hotline: +84-24-3333-1000\n\n"
+                + "Hotline: +84 24 3333 1701\n\n"
                 + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\n"
                 + "Trân trọng,\n"
                 + "Nhà hàng Grill63 - Khách sạn Lotte VN, 54 P. Liễu Giai, Ba Đình, Hà Nội");
@@ -294,6 +295,8 @@ public class BookingServiceImpl implements BookingService {
         javaMailSender.send(message);
     }
 
+    // Chạy mỗi 60 phút
+//    @Scheduled(fixedRate = 3600000)
     @Scheduled(fixedRate = 60000) // Chạy mỗi 1 phút
     @Transactional // Đảm bảo giao dịch được mở để xóa các đặt bàn
     public void cleanupExpiredBookings() {
@@ -301,7 +304,7 @@ public class BookingServiceImpl implements BookingService {
             // Lấy thời điểm hiện tại
             Date currentTime = new Date();
             // Lấy tất cả các đặt bàn với trạng thái "Holding_A_Seat"
-            // và thời gian đặt bàn quá 1 phút
+            // và thời gian đặt bàn quá 60 phút
             List<Booking> expiredBookings = bookingRepository
                     .findByStatusAndCreatedAtBefore(EBookingStatus.HOLDING_A_SEAT,
                             new Date(currentTime.getTime() - 60 * 1000));
@@ -318,7 +321,7 @@ public class BookingServiceImpl implements BookingService {
                 desk.setStatus(EDeskStatus.EMPTY);
                 desk.setUpdatedAt(new Date());
                 deskRepository.save(desk);
-                logger.info("Hủy bàn thành công!");
+                logger.info("Hủy đặt bàn thành công!");
             }
         } catch (Exception e) {
             e.printStackTrace();

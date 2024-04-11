@@ -33,7 +33,7 @@ public class BookingDTO {
 
     // Thêm setter method để chuyển đổi chuỗi thành LocalDateTime
     public void setBookingTimeFromString(String bookingTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(bookingTimeString, formatter);
         this.bookingTime = dateTime.toString(); // Lưu LocalDateTime dưới dạng chuỗi (optional)
     }

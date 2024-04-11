@@ -19,8 +19,8 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
     @PostMapping("/customerAddBooking")
     public ResponseEntity<BookingDTO> customerAddBooking(
             @RequestBody BookingDTO bookingDTO) {
@@ -85,6 +85,4 @@ public class BookingController {
         bookingService.delete(id);
         return ResponseEntity.ok("Xóa Đặt bàn thành công!");
     }
-
-
 }
