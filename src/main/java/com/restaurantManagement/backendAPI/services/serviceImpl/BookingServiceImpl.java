@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import java.time.ZoneId;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -295,35 +296,36 @@ public class BookingServiceImpl implements BookingService {
         javaMailSender.send(message);
     }
 
-    // Chạy mỗi 60 phút
-//    @Scheduled(fixedRate = 3600000)
     @Scheduled(fixedRate = 60000) // Chạy mỗi 1 phút
     @Transactional // Đảm bảo giao dịch được mở để xóa các đặt bàn
     public void cleanupExpiredBookings() {
         try {
-            // Lấy thời điểm hiện tại
-            Date currentTime = new Date();
             // Lấy tất cả các đặt bàn với trạng thái "Holding_A_Seat"
-            // và thời gian đặt bàn quá 60 phút
-            List<Booking> expiredBookings = bookingRepository
-                    .findByStatusAndCreatedAtBefore(EBookingStatus.HOLDING_A_SEAT,
-                            new Date(currentTime.getTime() - 60 * 1000));
+            List<Booking> expiredBookings = bookingRepository.findByStatus(EBookingStatus.HOLDING_A_SEAT);
+
             // Xóa các đặt bàn quá hạn
             for (Booking booking : expiredBookings) {
-                // Lấy deskId từ bookingDTO
-                Long deskId = booking.getDesk().getId();
-                Desk desk = deskRepository.findById(deskId)
-                        .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin bàn ăn!"));
-                bookingRepository.delete(booking);
-                // Gửi email thông báo hủy đặt bàn cho khách hàng
-                sendCancellationEmail(booking);
-                desk.setStatus(EDeskStatus.EMPTY);
-                desk.setUpdatedAt(new Date());
-                deskRepository.save(desk);
-                logger.info("Hủy đặt bàn thành công!");
+                // Tính thời điểm hết hạn dựa trên thời gian đặt bàn và thời gian hết hạn (2 phút sau)
+                LocalDateTime expirationTime = booking.getBookingTime()
+                        .atZone(ZoneId.systemDefault()).toLocalDateTime().plusMinutes(2);
+                LocalDateTime currentTime = LocalDateTime.now();
+
+                // Nếu thời gian hiện tại vượt quá thời gian hết hạn, thực hiện hủy đặt bàn
+                if (currentTime.isAfter(expirationTime)) {
+                    Long deskId = booking.getDesk().getId();
+                    Desk desk = deskRepository.findById(deskId)
+                            .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin bàn ăn!"));
+                    bookingRepository.delete(booking);
+                    sendCancellationEmail(booking);
+                    desk.setStatus(EDeskStatus.EMPTY);
+                    desk.setUpdatedAt(new Date());
+                    deskRepository.save(desk);
+                    logger.info("Hủy đặt bàn thành công!");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }
