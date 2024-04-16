@@ -28,6 +28,11 @@ public class InvoiceController {
         return ResponseEntity.ok(invoiceService.getAll());
     }
 
+    @GetMapping("/getInvoiceById/{invoiceId}")
+    public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable Long invoiceId) {
+        return ResponseEntity.ok(invoiceService.getInvoiceById(invoiceId));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Invoice> createInvoice(@RequestParam Long bookingId) {
         return new ResponseEntity<>(invoiceService.createInvoice(bookingId),

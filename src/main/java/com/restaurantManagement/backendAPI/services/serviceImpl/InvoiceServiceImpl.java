@@ -255,6 +255,13 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceDetailDTOS;
     }
 
+    @Override
+    public InvoiceDTO getInvoiceById(Long invoiceId) {
+        Invoice invoiceExisted = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin hóa đơn!"));
+        return modelMapper.map(invoiceExisted, InvoiceDTO.class);
+    }
+
 
     // Phương thức để cập nhật tổng tiền của hóa đơn
     private void updateTotalPrice(Invoice invoice) {

@@ -23,4 +23,6 @@ public interface InvoiceService {
 
     List<InvoiceDetailDTO> getInvoiceDetailsByInvoiceId(Long invoiceId);
 
+    InvoiceDTO getInvoiceById(Long invoiceId);
+
 }

@@ -5,12 +5,20 @@ import com.restaurantManagement.backendAPI.exceptions.UserNotFoundException;
 import com.restaurantManagement.backendAPI.models.dto.catalog.UserDTO;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import com.restaurantManagement.backendAPI.repository.UserRepository;
+import com.restaurantManagement.backendAPI.security.jwt.JwtUtils;
+import com.restaurantManagement.backendAPI.security.services.UserDetailsImpl;
 import com.restaurantManagement.backendAPI.services.UserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +38,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Override
     public boolean existsByUsername(String userName) {
@@ -126,5 +137,15 @@ public class UserServiceImpl implements UserService {
                 .map(user -> modelMapper.map(user, UserDTO.class))
                 .collect(Collectors.toList());
         return userDTOList;
+    }
+
+    @Override
+    public UserDetails getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return userDetails;
+        }
+        return null;
     }
 }

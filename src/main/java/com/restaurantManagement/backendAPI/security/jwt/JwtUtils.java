@@ -3,6 +3,7 @@ package com.restaurantManagement.backendAPI.security.jwt;
 import java.security.Key;
 import java.util.Date;
 
+import com.restaurantManagement.backendAPI.exceptions.UserNotFoundException;
 import com.restaurantManagement.backendAPI.security.services.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

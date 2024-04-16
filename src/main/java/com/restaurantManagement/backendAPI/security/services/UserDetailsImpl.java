@@ -42,17 +42,19 @@ public class UserDetailsImpl implements UserDetails {
   public static UserDetailsImpl build(User user) {
     //lay cac quyen tu user truyen vao
     //user.getRoles()trả về 1 Set<Role>
-    List<GrantedAuthority> authorities = user.getRoles().stream()
+    List<GrantedAuthority> authorities = user
+            .getRoles()
+            .stream()
             //map() thay đổi mọi Role mục ở trên thành một đối tượng SimpleGrantedAuthority
-        .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-        .collect(Collectors.toList());
-    // tra ra doi tuong UserDetailsImpl
-    return new UserDetailsImpl(
-        user.getId(), 
-        user.getUsername(), 
-        user.getEmail(),
-        user.getPassword(), 
-        authorities);
+            .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+            .collect(Collectors.toList());
+      // tra ra doi tuong UserDetailsImpl
+      return new UserDetailsImpl(
+          user.getId(),
+          user.getUsername(),
+          user.getEmail(),
+          user.getPassword(),
+          authorities);
   }
 
   //Lay ra cac quyen cua User do

@@ -3,6 +3,7 @@ package com.restaurantManagement.backendAPI.services;
 import com.restaurantManagement.backendAPI.models.dto.catalog.UserDTO;
 import com.restaurantManagement.backendAPI.models.entity.User;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +21,5 @@ public interface UserService {
     Page<UserDTO> getUsersWithPaginationAndSorting(int pageNumber, int pageSize, String filed);
     List<UserDTO> searchUsers(String query);
     List<UserDTO> getAlls();
+    UserDetails getCurrentUser();
 }

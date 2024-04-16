@@ -312,7 +312,6 @@ public class BookingServiceImpl implements BookingService {
             for (Booking booking : expiredBookings) {
                 // Lấy deskId từ bookingDTO
                 Long deskId = booking.getDesk().getId();
-                // Lấy thông tin bàn từ CSDL
                 Desk desk = deskRepository.findById(deskId)
                         .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin bàn ăn!"));
                 bookingRepository.delete(booking);
