@@ -20,7 +20,6 @@ import java.util.List;
 @RequestMapping("/api/foods")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
-@PreAuthorize("hasRole('ADMIN')")
 public class FoodController {
 
     @Autowired
@@ -46,11 +45,13 @@ public class FoodController {
         return ResponseEntity.ok(food);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createFood")
     public ResponseEntity<Food> createFood(@RequestBody Food food, @RequestParam Long categoryId){
         return new ResponseEntity<>(foodService.add(food, categoryId), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/updateFood/{id}")
     public ResponseEntity<Food> updateFood(@RequestBody Food food,
                                                 @PathVariable Long id,
@@ -58,6 +59,7 @@ public class FoodController {
         return new ResponseEntity<>(foodService.update(food, id, categoryId), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteFood/{id}")
     public ResponseEntity<String> deleteFood(@PathVariable("id") Long id){
         foodService.delete(id);

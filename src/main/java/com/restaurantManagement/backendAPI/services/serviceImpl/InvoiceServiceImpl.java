@@ -262,6 +262,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         return modelMapper.map(invoiceExisted, InvoiceDTO.class);
     }
 
+    @Override
+    public InvoiceDTO getInvoiceByBookingId(Long bookingId) {
+        Invoice invoice = invoiceRepository.findByBookingId(bookingId);
+        return modelMapper.map(invoice, InvoiceDTO.class);
+    }
+
 
     // Phương thức để cập nhật tổng tiền của hóa đơn
     private void updateTotalPrice(Invoice invoice) {

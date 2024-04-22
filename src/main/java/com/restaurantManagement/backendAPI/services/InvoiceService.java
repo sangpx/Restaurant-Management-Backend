@@ -25,4 +25,8 @@ public interface InvoiceService {
 
     InvoiceDTO getInvoiceById(Long invoiceId);
 
+
+    InvoiceDTO getInvoiceByBookingId(Long bookingId);
+
+
 }

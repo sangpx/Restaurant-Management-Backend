@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping("/api/categories")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
-@PreAuthorize("hasRole('ADMIN')")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
@@ -41,15 +40,22 @@ public class CategoryController {
         Category category = categoryService.getDetail(id);
         return ResponseEntity.ok(category);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createCategory")
     public ResponseEntity<Category> createCategory(@RequestBody Category category){
         return new ResponseEntity<>(categoryService.add(category), HttpStatus.CREATED);
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
+
     @PutMapping("/updateCategory/{id}")
     public ResponseEntity<Category> updateCategory(@RequestBody Category category, @PathVariable Long id){
         return new ResponseEntity<>(categoryService.update(category, id), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
 
     @DeleteMapping("/deleteCategory/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){

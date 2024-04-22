@@ -18,49 +18,64 @@ import java.util.List;
 @RequestMapping("/api/invoices")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
-@PreAuthorize("hasRole('ADMIN')")
+
 public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
-
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @GetMapping("/getAlls")
     public ResponseEntity<List<InvoiceDTO>> getAlls() {
         return ResponseEntity.ok(invoiceService.getAll());
     }
 
+//    @PreAuthorize("hasRole(('CASHIER'))")
+//    @PreAuthorize("hasRole(('ADMIN'))")
+    @GetMapping("/getInvoiceByBookingId/{bookingId}")
+    public ResponseEntity<InvoiceDTO> getInvoiceByBookingId(@PathVariable Long bookingId) {
+        return ResponseEntity.ok(invoiceService.getInvoiceByBookingId(bookingId));
+    }
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @GetMapping("/getInvoiceById/{invoiceId}")
     public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable Long invoiceId) {
         return ResponseEntity.ok(invoiceService.getInvoiceById(invoiceId));
     }
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
 
     @PostMapping("/create")
     public ResponseEntity<Invoice> createInvoice(@RequestParam Long bookingId) {
         return new ResponseEntity<>(invoiceService.createInvoice(bookingId),
                 HttpStatus.CREATED);
     }
-
+//    @PreAuthorize("hasRole(('CASHIER'))")
     @PutMapping("/update")
     public ResponseEntity<InvoiceDetailDTO> updateInvoice(@RequestBody InvoiceDetailDTO invoiceDetailDTO) {
         return ResponseEntity.ok(invoiceService.updateInvoiceDetail(invoiceDetailDTO));
     }
-
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @PostMapping("/addFoodToInvoice")
     public ResponseEntity<InvoiceDetailDTO> addFoodToInvoice(@RequestBody InvoiceDetailDTO invoiceDetailDTO) {
         return ResponseEntity.ok(invoiceService.addFoodToInvoiceDetail(invoiceDetailDTO));
     }
-
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @PostMapping("/{invoiceId}/pay")
     public ResponseEntity<String> payInvoice(@PathVariable Long invoiceId) {
         invoiceService.payInvoice(invoiceId);
         return ResponseEntity.ok("Hóa đơn đã được thanh toán thành công!");
     }
-
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteInvoiceDetail(@RequestParam Long invoiceId, @RequestParam Long foodId) {
         invoiceService.removeFoodFromInvoiceDetail(invoiceId, foodId);
         return ResponseEntity.ok("Món ăn đã được xóa thành công!");
     }
-
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @GetMapping("/getInvoiceDetail/{invoiceId}")
     public ResponseEntity<List<InvoiceDetailDTO>> getDetailInvoice(@PathVariable Long invoiceId) {
         return ResponseEntity.ok(invoiceService.getInvoiceDetailsByInvoiceId(invoiceId));

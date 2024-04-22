@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping("/api/desks")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
-@PreAuthorize("hasRole('ADMIN')")
 public class DeskController {
     @Autowired
     private DeskService deskService;
@@ -42,18 +41,21 @@ public class DeskController {
         return ResponseEntity.ok(desk);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createDesk")
     public ResponseEntity<Desk> createDesk(@RequestBody Desk desk){
         Desk savedDesk = deskService.add(desk);
         return new ResponseEntity<>(savedDesk, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/updateDesk/{deskId}")
     public ResponseEntity<Desk> updateDesk(@RequestBody Desk desk, @PathVariable Long deskId){
         Desk savedDesk = deskService.update(desk, deskId);
         return new ResponseEntity<>(savedDesk, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteDesk/{id}")
     public ResponseEntity<String> deleteDesk(@PathVariable("id") Long id){
         deskService.delete(id);

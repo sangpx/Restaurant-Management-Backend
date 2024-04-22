@@ -74,6 +74,8 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(auth -> 
           auth.requestMatchers("/api/auth/**").permitAll() // Cho phep tat ca moi nguoi truy cap
               .requestMatchers("/api/**").permitAll()
+              .requestMatchers("api/bookings/**").permitAll()
+              .requestMatchers("api/invoices/**").permitAll()
               .anyRequest().authenticated()
         );
 

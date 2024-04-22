@@ -19,8 +19,6 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-//    @PreAuthorize("hasRole('USER')")
-    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
     @PostMapping("/customerAddBooking")
     public ResponseEntity<BookingDTO> customerAddBooking(
             @RequestBody BookingDTO bookingDTO) {
@@ -28,7 +26,8 @@ public class BookingController {
                 HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @PutMapping("/holdingDeskCustomer")
     public ResponseEntity<BookingDTO> holdingDeskCustomer(
             @RequestParam Long bookingId, @RequestParam Long deskId) {
@@ -36,7 +35,8 @@ public class BookingController {
                 HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @PutMapping("/confirmDeskCustomer")
     public ResponseEntity<BookingDTO> confirmDeskCustomer(
             @RequestParam Long bookingId) {
@@ -44,7 +44,8 @@ public class BookingController {
                 HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @PostMapping("/addBooking")
     public ResponseEntity<BookingDTO> addBooking(
             @RequestBody BookingDTO bookingDTO) {
@@ -52,7 +53,8 @@ public class BookingController {
                 HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @PostMapping("/addMultipleBookings")
     public ResponseEntity<List<BookingDTO>> addMultipleBookings(
             @RequestBody List<BookingDTO> bookingDTOs) {
@@ -60,26 +62,30 @@ public class BookingController {
                 HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+//    @PreAuthorize("hasRole(('CASHIER'))")
+  @PreAuthorize("hasRole(('ADMIN'))")
     @PutMapping("/updateBooking/{id}")
     public ResponseEntity<BookingDTO> updateBooking(
             @RequestBody BookingDTO bookingDTO, @PathVariable Long id) {
         return new ResponseEntity<>(bookingService.updateBooking(bookingDTO, id), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @GetMapping("/getAlls")
     public ResponseEntity<List<BookingDTO>> getAlls() {
         return ResponseEntity.ok(bookingService.getAlls());
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @GetMapping("/getDetailBooking/{id}")
     public ResponseEntity<BookingDTO> getDetailBooking(@PathVariable("id") Long id){
         return ResponseEntity.ok(bookingService.getDetail(id));
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole(('RECEPTIONIST'))")
+//    @PreAuthorize("hasRole(('CASHIER'))")
+    @PreAuthorize("hasRole(('ADMIN'))")
     @DeleteMapping("/deleteBooking/{id}")
     public ResponseEntity<String> deleteBooking(@PathVariable("id") Long id){
         bookingService.delete(id);
