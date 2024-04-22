@@ -51,6 +51,16 @@ public class BookingServiceImpl implements BookingService {
     //Khách hàng đặt bàn Online
     @Override
     public BookingDTO customerAddBooking(BookingDTO bookingDTO) {
+        // Lấy deskId từ bookingDTO
+        Long deskId = bookingDTO.getDeskId();
+        // Lấy thông tin bàn từ CSDL
+        Desk desk = deskRepository.findById(deskId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin bàn ăn!"));
+        // Kiểm tra trạng thái của bàn
+        if (desk.getStatus() == EDeskStatus.BOOKED) {
+            throw new NotFoundException("Mã bàn: " + desk.getId()
+                    + " đã được đặt. Vui lòng tìm bàn khác!");
+        }
         // Lấy thông tin về Nhân viên Đặt Bàn từ token JWT
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
@@ -75,13 +85,18 @@ public class BookingServiceImpl implements BookingService {
         }
         bookingCreate.setBookingTime(bookingTime);
 
+        bookingCreate.setDesk(desk);
         bookingCreate.setQuantityPerson(bookingDTO.getQuantityPerson());
-        bookingCreate.setStatus(EBookingStatus.PENDING);
+        bookingCreate.setStatus(EBookingStatus.HOLDING_A_SEAT);
         bookingCreate.setCreatedAt(new Date());
         bookingCreate.setUpdatedAt(new Date());
         // Gửi email thông báo cho khách hàng
         sendBookingConfirmationEmail(bookingDTO);
         Booking savedBooking = bookingRepository.save(bookingCreate);
+        // Cập nhật trạng thái của bàn
+        desk.setStatus(EDeskStatus.BOOKED);
+        desk.setUpdatedAt(new Date());
+        deskRepository.save(desk);
         return modelMapper.map(savedBooking, BookingDTO.class);
     }
 
@@ -272,7 +287,8 @@ public class BookingServiceImpl implements BookingService {
                 + "Số điện thoại: " + bookingDTO.getPhone() + "\n"
                 + "Địa chỉ: " + bookingDTO.getAddress() + "\n"
                 + "Thời gian đặt bàn: " + bookingDTO.getBookingTime() + "\n"
-                + "Số lượng khách: " + bookingDTO.getQuantityPerson() + "\n\n"
+                + "Số lượng khách: " + bookingDTO.getQuantityPerson() + "\n"
+                + "Số bàn: " + bookingDTO.getDeskId() + "\n\n"
                 + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\n"
                 + "Trân trọng,\n"
                 + "Nhà hàng Grill63 - Khách sạn Lotte VN, 54 P. Liễu Giai, Ba Đình, Hà Nội");
