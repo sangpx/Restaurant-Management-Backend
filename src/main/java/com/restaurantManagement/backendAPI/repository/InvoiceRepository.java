@@ -28,5 +28,4 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     Long countInvoicesByMonth(@Param("year") int year, @Param("month") int month);
 
     Invoice findByBookingId(Long bookingId);
-
 }

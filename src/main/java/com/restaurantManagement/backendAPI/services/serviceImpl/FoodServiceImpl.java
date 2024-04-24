@@ -97,4 +97,9 @@ public class FoodServiceImpl implements FoodService {
                 .collect(Collectors.toList());
         return foodDTOList;
     }
+
+    @Override
+    public long countFoods() {
+        return foodRepository.count();
+    }
 }

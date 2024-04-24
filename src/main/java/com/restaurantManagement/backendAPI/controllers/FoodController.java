@@ -25,7 +25,6 @@ public class FoodController {
     @Autowired
     private FoodService foodService;
 
-
     @GetMapping("/getAlls")
     public ResponseEntity<List<FoodDTO>> getAlls(){
         List<FoodDTO> foodDTOList = foodService.getAlls();
@@ -70,5 +69,10 @@ public class FoodController {
     public ResponseEntity<List<Food>> searchFoods(
             @RequestParam("query") String query){
         return ResponseEntity.ok(foodService.searchFood(query));
+    }
+
+    @GetMapping("/countFood")
+    public ResponseEntity<Long> getFoodCount() {
+        return new ResponseEntity<>(foodService.countFoods(), HttpStatus.OK);
     }
 }

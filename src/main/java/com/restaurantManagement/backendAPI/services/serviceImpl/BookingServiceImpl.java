@@ -276,6 +276,11 @@ public class BookingServiceImpl implements BookingService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public long countBookings() {
+        return bookingRepository.count();
+    }
+
     private void sendBookingConfirmationEmail(BookingDTO bookingDTO) {
         SimpleMailMessage message = new SimpleMailMessage();
         // Địa chỉ email của khách hàng

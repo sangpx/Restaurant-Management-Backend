@@ -71,6 +71,11 @@ public class DeskServiceImpl implements DeskService {
     }
 
     @Override
+    public long countDesks() {
+        return deskRepository.count();
+    }
+
+    @Override
     public Page<Desk> getDesksWithPaginationAndSorting(int pageNumber, int pageSize, String filed) {
         //DTO -> Entity
         Page<Desk> deskPage = deskRepository.findAll(PageRequest.of(pageNumber, pageSize)

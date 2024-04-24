@@ -14,4 +14,5 @@ public interface FoodService {
     List<Food> searchFood(String query);
     Page<FoodDTO> getFoodsWithPaginationAndSorting(int pageNumber, int pageSize, String filed);
     List<FoodDTO> getAlls();
+    long countFoods();
 }

@@ -14,4 +14,6 @@ public interface BookingService {
     void delete(Long bookingId);
     BookingDTO getDetail( Long bookingId);
     List<BookingDTO> getAlls();
+
+    long countBookings();
 }

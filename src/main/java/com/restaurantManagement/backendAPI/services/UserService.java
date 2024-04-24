@@ -22,4 +22,5 @@ public interface UserService {
     List<UserDTO> searchUsers(String query);
     List<UserDTO> getAlls();
     UserDetails getCurrentUser();
+    long countUsers();
 }

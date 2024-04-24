@@ -13,4 +13,5 @@ public interface DeskService {
     List<Desk> searchDesk(String query);
     Page<Desk> getDesksWithPaginationAndSorting(int pageNumber, int pageSize, String filed);
     List<Desk> getAlls();
+    long countDesks();
 }

@@ -13,4 +13,5 @@ public interface DeskRepository extends JpaRepository<Desk, Long> {
     @Query("select d from Desk d where " +
             "d.name LIKE concat('%', :query, '%')")
     List<Desk> searchDesks(@Param("query") String query);
+    long count();
 }

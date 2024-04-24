@@ -194,4 +194,9 @@ public class UserController {
   public ResponseEntity<UserDetails> getUserProfileByJwt() {
     return ResponseEntity.ok(userService.getCurrentUser());
   }
+
+  @GetMapping("/countUser")
+  public ResponseEntity<Long> getUserCount() {
+    return new ResponseEntity<>(userService.countUsers(), HttpStatus.OK);
+  }
 }

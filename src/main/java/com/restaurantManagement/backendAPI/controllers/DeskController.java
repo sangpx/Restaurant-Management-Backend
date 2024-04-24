@@ -67,4 +67,9 @@ public class DeskController {
             @RequestParam("query") String query){
         return ResponseEntity.ok(deskService.searchDesk(query));
     }
+
+    @GetMapping("/countDesk")
+    public ResponseEntity<Long> getDeskCount() {
+        return new ResponseEntity<>(deskService.countDesks(), HttpStatus.OK);
+    }
 }
