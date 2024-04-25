@@ -257,6 +257,12 @@ public class BookingServiceImpl implements BookingService {
         Booking bookingExisted = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy thông tin đặt bàn!"));
         bookingRepository.delete(bookingExisted);
+        Desk deskExisted = bookingExisted.getDesk();
+        if (deskExisted != null) {
+            deskExisted.setStatus(EDeskStatus.EMPTY);
+            deskExisted.setUpdatedAt(new Date());
+            deskRepository.save(deskExisted);
+        }
     }
 
     @Override
