@@ -250,6 +250,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceDetailDTO.setQuantity(invoiceDetail.getQuantity());
             invoiceDetailDTO.setIntoMoney(invoiceDetail.getIntoMoney());
             invoiceDetailDTO.setNameFood(invoiceDetail.getFood().getName());
+            invoiceDetailDTO.setPrice(invoiceDetail.getFood().getPrice());
             invoiceDetailDTOS.add(invoiceDetailDTO);
         }
         return invoiceDetailDTOS;

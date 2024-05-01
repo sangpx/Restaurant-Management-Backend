@@ -29,7 +29,7 @@ public class InvoiceController {
         return ResponseEntity.ok(invoiceService.getAll());
     }
 
-    @PreAuthorize("hasRole(('CASHIER'))")
+//    @PreAuthorize("hasRole(('CASHIER'))")
 //    @PreAuthorize("hasRole(('ADMIN'))")
     @GetMapping("/getInvoiceByBookingId/{bookingId}")
     public ResponseEntity<InvoiceDTO> getInvoiceByBookingId(@PathVariable Long bookingId) {

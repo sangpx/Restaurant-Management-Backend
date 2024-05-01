@@ -15,4 +15,5 @@ public class InvoiceDetailDTO {
     private String nameFood;
     private int quantity;
     private Double intoMoney;
+    private Double price;
 }
