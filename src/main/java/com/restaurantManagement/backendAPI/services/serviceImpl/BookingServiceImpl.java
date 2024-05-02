@@ -86,7 +86,7 @@ public class BookingServiceImpl implements BookingService {
         bookingCreate.setBookingTime(bookingTime);
 
         bookingCreate.setDesk(desk);
-        bookingCreate.setQuantityPerson(bookingDTO.getQuantityPerson());
+//        bookingCreate.setQuantityPerson(bookingDTO.getQuantityPerson());
         bookingCreate.setStatus(EBookingStatus.HOLDING_A_SEAT);
         bookingCreate.setCreatedAt(new Date());
         bookingCreate.setUpdatedAt(new Date());
@@ -170,7 +170,7 @@ public class BookingServiceImpl implements BookingService {
         bookingCreate.setBookingTime(LocalDateTime.now());
         bookingCreate.setEmail(bookingDTO.getEmail());
         bookingCreate.setAddress(bookingDTO.getAddress());
-        bookingCreate.setQuantityPerson(bookingDTO.getQuantityPerson());
+//        bookingCreate.setQuantityPerson(bookingDTO.getQuantityPerson());
         bookingCreate.setStatus(EBookingStatus.CONFIRMED);
         bookingCreate.setCreatedAt(Date.from(Instant.now()));
         bookingCreate.setUpdatedAt(Date.from(Instant.now()));
@@ -214,7 +214,7 @@ public class BookingServiceImpl implements BookingService {
             bookingCreate.setPhone(bookingDTO.getPhone());
             bookingCreate.setAddress(bookingDTO.getAddress());
             bookingCreate.setEmail(bookingDTO.getEmail());
-            bookingCreate.setQuantityPerson(bookingDTO.getQuantityPerson());
+//            bookingCreate.setQuantityPerson(bookingDTO.getQuantityPerson());
             bookingCreate.setCreatedAt(Date.from(Instant.now()));
             bookingCreate.setUpdatedAt(Date.from(Instant.now()));
             Booking savedBooking = bookingRepository.save(bookingCreate);
@@ -298,7 +298,6 @@ public class BookingServiceImpl implements BookingService {
                 + "Số điện thoại: " + bookingDTO.getPhone() + "\n"
                 + "Địa chỉ: " + bookingDTO.getAddress() + "\n"
                 + "Thời gian đặt bàn: " + bookingDTO.getBookingTime() + "\n"
-                + "Số lượng khách: " + bookingDTO.getQuantityPerson() + "\n"
                 + "Số bàn: " + bookingDTO.getDeskId() + "\n\n"
                 + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\n"
                 + "Trân trọng,\n"
