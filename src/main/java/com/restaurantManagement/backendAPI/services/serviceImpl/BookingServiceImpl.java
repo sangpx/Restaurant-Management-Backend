@@ -214,7 +214,6 @@ public class BookingServiceImpl implements BookingService {
             bookingCreate.setPhone(bookingDTO.getPhone());
             bookingCreate.setAddress(bookingDTO.getAddress());
             bookingCreate.setEmail(bookingDTO.getEmail());
-//            bookingCreate.setQuantityPerson(bookingDTO.getQuantityPerson());
             bookingCreate.setCreatedAt(Date.from(Instant.now()));
             bookingCreate.setUpdatedAt(Date.from(Instant.now()));
             Booking savedBooking = bookingRepository.save(bookingCreate);
