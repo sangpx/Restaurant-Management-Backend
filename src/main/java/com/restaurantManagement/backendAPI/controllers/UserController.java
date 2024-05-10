@@ -7,6 +7,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.restaurantManagement.backendAPI.exceptions.TokenRefreshException;
+import com.restaurantManagement.backendAPI.models.dto.payload.request.TokenRefreshRequest;
+import com.restaurantManagement.backendAPI.models.dto.payload.response.TokenRefreshResponse;
+import com.restaurantManagement.backendAPI.models.entity.RefreshToken;
+import com.restaurantManagement.backendAPI.services.RefreshTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.restaurantManagement.backendAPI.models.dto.catalog.UserDTO;
@@ -63,6 +69,9 @@ public class UserController {
   @Autowired
   JwtUtils jwtUtils;
 
+  @Autowired
+  private RefreshTokenService refreshTokenService;
+
   @PostMapping("/signin")
   public ResponseEntity<?> signIn(@Valid @RequestBody SigninRequest siginRequest) {
 
@@ -73,13 +82,18 @@ public class UserController {
     String jwt = jwtUtils.generateJwtToken(authentication);
     
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    //Lấy ra các quyền người dùng
     List<String> roles = userDetails
             .getAuthorities()
             .stream()
             .map(item -> item.getAuthority())
             .collect(Collectors.toList());
 
-    return ResponseEntity.ok(new JwtResponse(jwt, 
+    //Thêm RefreshToken
+    RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+
+    return ResponseEntity.ok(new JwtResponse(jwt,
+                         refreshToken.getToken(),
                          userDetails.getId(), 
                          userDetails.getUsername(), 
                          userDetails.getEmail(), 
@@ -198,5 +212,20 @@ public class UserController {
   @GetMapping("/countUser")
   public ResponseEntity<Long> getUserCount() {
     return new ResponseEntity<>(userService.countUsers(), HttpStatus.OK);
+  }
+
+  //Refresh Token
+  @PostMapping("/refreshToken")
+  public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
+    String requestRefreshToken = request.getRefreshToken();
+    return refreshTokenService.findByToken(requestRefreshToken)
+            .map(refreshTokenService::verifyExpiration)
+            .map(RefreshToken::getUser)
+            .map(user -> {
+              String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+              return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+            })
+            .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+                    "Refresh token is not in database!"));
   }
 }
